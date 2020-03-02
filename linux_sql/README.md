@@ -2,4 +2,4 @@
 This project is under development. Since this project follows the GitFlow, the final work will be merged to the master branch after Team Code Team.
 
 ##Architecture Diagram for the Linux Cluster Monitoring Agent
-![Architecture Diagram with 3 Servers](/assets/architecture.png)
+![Architecture Diagram with 3 Servers](assets/architecture.png)
