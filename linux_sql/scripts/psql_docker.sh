@@ -1,17 +1,19 @@
 #! /bin/bash
 
-#validate number of arguments
-if [ "$#" -ne 2 ]; then
-    echo "Illegal number of parameters"
-    exit 1
-fi
-
-#store arguments in variables
+#store command in variable
 cmd=$1
-pw=$2
 
-if [ $1 = 'start' ]; then
+if [ $cmd = 'start' ]; then
 	
+	#if password is not provided, ask to enter command again with password
+	if [ "$#" -ne 2 ]; then
+		echo "You have to enter password for database"
+		exit 1
+	fi
+	
+	#store command in variable 
+	pw=$2
+
 	#if docker is not running, start docker
 	sudo systemctl status docker || sudo systemctl start docker
 
@@ -34,16 +36,17 @@ if [ $1 = 'start' ]; then
 	sudo docker container start jrvs-psql
 
 	exit 0
-elif [ $1 = 'stop' ]; then
+
+elif [ $cmd = 'stop' ]; then
 	
 	#stop postgresql container
         sudo docker container stop jrvs-psql
 
 	exit 0
-else
 
+else
 	#inform about wrong command entry
-	echo "Command not recognized"
+	echo "$cmd is not a recognized command"
 	
 	exit 1
 
