@@ -58,8 +58,9 @@ timestamp=$(date -u '+%Y-%m-%d %H:%M:%S') #current timestamp in `2019-11-26 14:4
 
 insert=$(cat <<-END
 INSERT INTO PUBLIC.host_info 
-VALUES (DEFAULT, "$hostname", "$cpu_number", "$cpu_architecture", "$cpu_model", "$cpu_mhz", "$L2_cache", "$total_mem", "$timestamp")
+VALUES (DEFAULT, '$hostname', $cpu_number, '$cpu_architecture', '$cpu_model', '$cpu_mhz', $l2_cache, '$total_mem', '$timestamp')
 END
 )
 
+export PGPASSWORD=$password
 psql -h $server_hostname -U $uname host_agent -c "$insert"
