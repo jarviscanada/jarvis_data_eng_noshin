@@ -1,18 +1,26 @@
 #! /bin/bash
 
-#store command in variable
+#if arguments are not provided, ask for arguments
+if [ "$#" -lt 1 ]; then
+	echo "ERROR: No arguments provided"
+	exit 1
+fi
+
+#store start/stop command in variable
 cmd=$1
 
 if [ $cmd = 'start' ]; then
 	
 	#if password is not provided, ask to enter command again with password
 	if [ "$#" -ne 2 ]; then
-		echo "You have to enter password for database"
+		echo "ERROR: You have to enter password for default user"
 		exit 1
 	fi
 	
 	#store command in variable 
 	pw=$2
+	
+	export PGPASSWORD=$pw
 
 	#if docker is not running, start docker
 	sudo systemctl status docker || sudo systemctl start docker
@@ -29,7 +37,7 @@ if [ $cmd = 'start' ]; then
 
 	#if `jrvs-psql` container is not created, run a `jrvs-psql` container
 	if [ $(sudo docker container ls -a -f name=jrvs-psql -q | wc -l) = 0 ]; then
-		sudo docker run --name jrvs-psql -e POSTGRES_PASSWORD=$pw -d -v pgdata:/var/lib/postgresql/data -p 5432:5432 postgres
+		sudo docker run --name jrvs-psql -e POSTGRES_PASSWORD=$PGPASSWORD -d -v pgdata:/var/lib/postgresql/data -p 5432:5432 postgres
 	fi
 
 	#start postgresql container
@@ -46,7 +54,7 @@ elif [ $cmd = 'stop' ]; then
 
 else
 	#inform about wrong command entry
-	echo "$cmd is not a recognized command"
+	echo "ERROR: $cmd is not a recognized command"
 	
 	exit 1
 

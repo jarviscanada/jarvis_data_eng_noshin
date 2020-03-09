@@ -7,17 +7,11 @@ if [ "$#" -ne 5 ]; then
 fi
 
 #store arguments in variables
-server_hostname=$1
+hostname=$1
 port=$2
 db_name=$3
 uname=$4
 password=$5
-
-echo $server_hostname
-echo $port
-echo $db_name
-echo $uname
-echo $password
 
 #validate port number
 if [ $port -ne 5432 ]; then
@@ -26,7 +20,7 @@ if [ $port -ne 5432 ]; then
 fi
 
 #validate database name
-if [ $db_name != "host_agent" ]; then
+if [ $db_name != "localhost" ]; then
 	echo "Please enter correct database name"
 	exit 1
 fi
@@ -43,10 +37,10 @@ if [ $password != "password" ]; then
         exit 1
 fi
 
-#save CPU architecture information to a variable
+#store CPU architecture information in a variable
 lscpu_out=lscpu
 
-#hardware
+#collecting hardware information
 hostname=$(hostname -f)
 cpu_number=$($lscpu_out |egrep 'CPU\(s\):'| awk '{print $2}' |sed 1q)
 cpu_architecture=$($lscpu_out | egrep 'Architecture' |awk '{print $2}')
@@ -56,10 +50,4 @@ l2_cache=$($lscpu_out | egrep 'L2 cache:' | awk '{print $3}' | sed 's/[A-Za-z]*/
 total_mem=$(grep MemTotal /proc/meminfo | awk '{print $2}')
 timestamp=$(date -u '+%Y-%m-%d %H:%M:%S') #current timestamp in `2019-11-26 14:40:19` format
 
-insert=$(cat <<-END
-INSERT INTO PUBLIC.host_info 
-VALUES (DEFAULT, "$hostname", "$cpu_number", "$cpu_architecture", "$cpu_model", "$cpu_mhz", "$L2_cache", "$total_mem", "$timestamp")
-END
-)
-
-psql -h $server_hostname -U $uname host_agent -c "$insert"
+sql="INSERT INTO
