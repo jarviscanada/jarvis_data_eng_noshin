@@ -1,4 +1,4 @@
-#Linux Cluster Monitoring Agent
+# Linux Cluster Monitoring Agent
 
 ## Introduction
 The Cluster Monitoring Agent is a tool used to record hardware specifications and to monitor resource usage of all nodes in a cluster. One of the nodes in the cluster will have a PostgreSQL database which will store all these information from itself and the other nodes in the cluster with the help of the Agent installed in all the nodes. The hardware specification information will be collected only once while the resource usage information will be collected every minute. The Agent will also help the infrastructure team to generate meaningful reports which will be used for future resource planning.
@@ -10,7 +10,7 @@ The diagram below shows a cluster of three nodes with the Cluster Monitoring Age
 As shown in the diagram above, only one of the nodes contains the information of all other nodes.
 The database consists of two tables:
 
-**Table name | Updated | Description | Fields**
+**Table name** | **Updated** | **Description** | **Fields**
 --- | --- | --- | ---
 host_info | Once | Hardware specifications | ID, Hostname, CPU (number, architecture, model, clock speed), L2 cache size, Total memory, Timestamp of data collection
 host_usage | Every minute | Resource usage | Timestamp of data collection, HostID, Free memory (in MB), CPU (idle time, kernel time), Number of disk I/O, Available disk
