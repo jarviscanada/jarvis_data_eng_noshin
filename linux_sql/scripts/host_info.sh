@@ -13,12 +13,6 @@ db_name=$3
 uname=$4
 password=$5
 
-echo $server_hostname
-echo $port
-echo $db_name
-echo $uname
-echo $password
-
 #validate port number
 if [ $port -ne 5432 ]; then
 	echo "Please enter correct port number"
@@ -63,4 +57,4 @@ END
 )
 
 export PGPASSWORD=$password
-psql -h $server_hostname -U $uname host_agent -c "$insert"
+psql -h $server_hostname -p $port -U $uname -d host_agent -c "$insert"
