@@ -11,11 +11,14 @@ if [ $cmd = 'start' ]; then
 		exit 1
 	fi
 	
-	#store command in variable 
+	#store password in variable 
 	pw=$2
 
 	#if docker is not running, start docker
 	sudo systemctl status docker || sudo systemctl start docker
+	
+	#if psql image does not exist, pull it
+	[ ! -z $(docker images -q postgres) ]	|| sudo docker pull postgres
 
 	#if `jrvs-psql` container is running, exit
 	if [ $(sudo docker ps -f name=jrvs-psql | wc -l) = 2 ]; then
@@ -39,8 +42,14 @@ if [ $cmd = 'start' ]; then
 
 elif [ $cmd = 'stop' ]; then
 	
+	#if docker is not running, start docker
+	sudo systemctl status docker || sudo systemctl start docker
+	
 	#stop postgresql container
         sudo docker container stop jrvs-psql
+
+	#stop docker
+	sudo systemctl stop docker
 
 	exit 0
 
