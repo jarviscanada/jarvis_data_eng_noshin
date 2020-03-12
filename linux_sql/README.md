@@ -41,7 +41,10 @@ host_usage.sh - This script collects and stores the resource usage information i
    ```
    * * * * * bash ../linux_sql/scripts/host_usage.sh <hostname of database server> 5432 host_agent postgres password > /tmp/host_usage.log
    ```
-
+5. Use the following command to get answers to some common business questions. See sql/queries.sql for further details:
+   ```sql
+   psql -h localhost -U postgres -d host_agent -f sql/queries.sql
+   ```
 ## Improvements
 1. Create a backup for the database
 2. Automatic updates for change in hardware specifications
