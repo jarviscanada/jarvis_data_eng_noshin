@@ -13,30 +13,6 @@ db_name=$3
 uname=$4
 password=$5
 
-#validate port number
-if [ $port -ne 5432 ]; then
-	echo "Please enter correct port number"
-	exit 1
-fi
-
-#validate database name
-if [ $db_name != "host_agent" ]; then
-	echo "Please enter correct database name"
-	exit 1
-fi
-
-#validate user name
-if [ $uname != "postgres" ]; then
-        echo "Please enter correct user name"
-        exit 1
-fi
-
-#validate password
-if [ $password != "password" ]; then
-        echo "Please enter correct password"
-        exit 1
-fi
-
 #save CPU architecture information to a variable
 lscpu_out=lscpu
 
@@ -58,3 +34,5 @@ END
 
 export PGPASSWORD=$password
 psql -h $server_hostname -p $port -U $uname -d host_agent -c "$insert"
+
+exit 0
