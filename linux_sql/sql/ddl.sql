@@ -15,8 +15,8 @@ CREATE TABLE IF NOT EXISTS PUBLIC.host_usage (
   timestamp TIMESTAMP NOT NULL, 
   host_id INTEGER REFERENCES PUBLIC.host_info(id) ON DELETE CASCADE, 
   memory_free INTEGER NOT NULL, 
-  cpu_idle NUMERIC(3, 1) NOT NULL, 
-  cpu_kernel NUMERIC(3, 1) NOT NULL, 
+  cpu_idle NUMERIC(4, 1) NOT NULL, 
+  cpu_kernel NUMERIC(4, 1) NOT NULL, 
   disk_io INTEGER NOT NULL, 
   disk_available INTEGER NOT NULL, 
   PRIMARY KEY (host_id, timestamp)
