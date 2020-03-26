@@ -1,5 +1,7 @@
 package ca.jrvs.apps.practice;
 
+import java.util.HashMap;
+
 class HelloWorld {
 
   // Your program begins with a call to main().
