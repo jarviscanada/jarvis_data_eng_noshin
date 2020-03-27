@@ -20,7 +20,7 @@ public class LambdaStreamExcImpTest {
 
   private LambdaStreamExcImp lambdaStreamExcImp = new LambdaStreamExcImp();
 
-  //For testing output stream contents
+  // For testing output stream contents
   private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
   private final PrintStream originalOut = System.out;
 

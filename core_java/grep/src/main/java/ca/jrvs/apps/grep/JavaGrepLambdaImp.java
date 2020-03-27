@@ -59,8 +59,7 @@ public class JavaGrepLambdaImp extends JavaGrepImp {
       throw new IllegalArgumentException(inputFile + " is not a file");
     }
     try {
-      return Files.lines(inputFile.toPath(), StandardCharsets.UTF_8)
-          .collect(Collectors.toList());
+      return Files.lines(inputFile.toPath(), StandardCharsets.UTF_8).collect(Collectors.toList());
     } catch (IOException e) {
       this.logger.error(e.getMessage(), e);
     }
