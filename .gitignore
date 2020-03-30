@@ -5,6 +5,7 @@ target/
 *.ear
 *.logs
 *.iml
+*.project
 .idea/
 .eclipse
 intellij-java-google-style.xml
