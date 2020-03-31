@@ -59,7 +59,7 @@ public class OrderDAO extends DataAccessObject<Order> {
       }
       order.setOrderItems(orderItems);
     } catch (SQLException e) {
-      e.printStackTrace();
+      //e.printStackTrace();
       throw new RuntimeException();
     }
     return order;
