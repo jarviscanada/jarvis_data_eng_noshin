@@ -1,14 +1,9 @@
 package ca.jrvs.apps.practice;
 
-import java.util.HashMap;
+public class RegexMain {
 
-class HelloWorld {
-
-  // Your program begins with a call to main().
-  // Prints "Hello, World" to the terminal window.
   public static void main(String args[]) {
-    
-    System.out.println("Hello, World");
+
     RegexExcImp regexEval = new RegexExcImp();
 
     System.out.println(regexEval.matchIp("192.16.0.1"));
@@ -29,4 +24,5 @@ class HelloWorld {
     System.out.println(regexEval.isEmptyLine("  "));
 
   }
+
 }

@@ -28,12 +28,12 @@ public class JavaGrepLambdaImpTest {
   @Test
   public void writeToFile() {
     System.out.println("Test case: test writeToFile method from the test class");
-    javaGrepLambdaImp.setOutFile("C:\\Users\\Public\\output.txt");
+    javaGrepLambdaImp.setOutFile("output.txt");
     List<String> lines = Arrays.asList("apple is red", "banana is yellow");
     List<String> result = null;
     try {
       javaGrepLambdaImp.writeToFile(lines);
-      result = Files.readAllLines(Paths.get("C:\\Users\\Public\\output.txt"));
+      result = Files.readAllLines(Paths.get("output.txt"));
     } catch (IOException e) {
       System.err.println(e);
     }
@@ -43,19 +43,19 @@ public class JavaGrepLambdaImpTest {
   @Test
   public void listFiles() {
     System.out.println("Test case: test listFiles method from the test class");
-    javaGrepLambdaImp.setRootPath("C:\\Users\\Public\\rootDir");
+    javaGrepLambdaImp.setRootPath("rootDir");
     List<String> resultfileNames =
         javaGrepLambdaImp.listFiles(javaGrepLambdaImp.getRootPath()).stream()
             .map(file -> file.getName())
             .collect(Collectors.toList());
     List<String> expectedFileNames =
         Arrays.asList(
-            "Color.txt",
-            "empty.txt",
-            "emptyLines.txt",
-            "fruitList.txt",
-            "redColor.txt",
-            "veggieList.txt");
+            "emptyLines",
+            "fruitList",
+            "veggieList",
+            "empty",
+            "redColor",
+            "Color");
     assertEquals(resultfileNames, expectedFileNames);
   }
 
@@ -63,7 +63,7 @@ public class JavaGrepLambdaImpTest {
   public void readLines() {
     System.out.println("Test case: test readLines method from the test class");
     List<String> resultLines =
-        javaGrepLambdaImp.readLines(new File("C:\\Users\\Public\\output.txt"));
+        javaGrepLambdaImp.readLines(new File("output.txt"));
     List<String> expectedLines = Arrays.asList("apple is red", "banana is yellow");
     assertEquals(resultLines, expectedLines);
   }

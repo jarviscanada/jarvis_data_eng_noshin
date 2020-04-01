@@ -69,11 +69,10 @@ public class JavaGrepImp implements JavaGrep {
               files.addAll(moreFiles);
             }
           }
-          return files;
         }
       }
     }
-    return null;
+    return files;
   }
 
   @Override
@@ -82,7 +81,7 @@ public class JavaGrepImp implements JavaGrep {
       throw new IllegalArgumentException(inputFile + " is not a file");
     }
     List<String> lines = new LinkedList<>();
-    BufferedReader reader;
+    BufferedReader reader = null;
     try {
       reader = new BufferedReader(new FileReader(inputFile));
       String newLine = reader.readLine();
@@ -90,12 +89,18 @@ public class JavaGrepImp implements JavaGrep {
         lines.add(newLine);
         newLine = reader.readLine();
       }
-      reader.close();
-      return lines;
     } catch (IOException e) {
-      this.logger.error(e.getMessage(), e);
+      logger.error(e.getMessage(), e);
+    } finally {
+      if (reader != null) {
+        try {
+          reader.close();
+        } catch (IOException e) {
+          logger.error(e.getMessage(), e);
+        }
+      }
     }
-    return null;
+    return lines;
   }
 
   @Override
@@ -105,15 +110,24 @@ public class JavaGrepImp implements JavaGrep {
 
   @Override
   public void writeToFile(List<String> lines) throws IOException {
-    FileOutputStream fos = new FileOutputStream(new File(getOutFile()));
-    OutputStreamWriter osw = new OutputStreamWriter(fos);
-    BufferedWriter writer = new BufferedWriter(osw);
-    for (String line : lines) {
-      writer.write(line);
-      writer.newLine();
+    BufferedWriter writer = null;
+    try {
+      FileOutputStream fos = new FileOutputStream(new File(getOutFile()));
+      OutputStreamWriter osw = new OutputStreamWriter(fos);
+      writer = new BufferedWriter(osw);
+      for (String line : lines) {
+        writer.write(line);
+        writer.newLine();
+      }
+    } catch (IOException e) {
+      logger.error(e.getMessage(), e);
+    } finally {
+      if (writer != null) {
+        writer.flush();
+        writer.close();
+      }
     }
-    writer.flush();
-    writer.close();
+
   }
 
   @Override

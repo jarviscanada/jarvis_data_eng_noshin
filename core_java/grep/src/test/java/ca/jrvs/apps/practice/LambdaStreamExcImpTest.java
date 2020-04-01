@@ -18,11 +18,10 @@ import org.junit.Test;
 
 public class LambdaStreamExcImpTest {
 
-  private LambdaStreamExcImp lambdaStreamExcImp = new LambdaStreamExcImp();
-
   // For testing output stream contents
   private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
   private final PrintStream originalOut = System.out;
+  private LambdaStreamExcImp lambdaStreamExcImp = new LambdaStreamExcImp();
 
   @Before
   public void setUpStreams() {
@@ -67,7 +66,7 @@ public class LambdaStreamExcImpTest {
   public void createIntStream() {
     System.out.println("Test case: test createIntStream method from the test class");
     int[] expected = {1, 2, 3};
-    int[] result = lambdaStreamExcImp.createIntStream(new int[] {1, 2, 3}).toArray();
+    int[] result = lambdaStreamExcImp.createIntStream(new int[]{1, 2, 3}).toArray();
     assertArrayEquals(expected, result);
   }
 

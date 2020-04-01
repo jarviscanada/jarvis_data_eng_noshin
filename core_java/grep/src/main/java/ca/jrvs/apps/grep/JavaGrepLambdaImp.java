@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.apache.log4j.BasicConfigurator;
@@ -30,39 +31,43 @@ public class JavaGrepLambdaImp extends JavaGrepImp {
     javaGrepLambdaImp.setOutFile(args[2]);
 
     try {
-      // Calling parent method,
-      // but it will call override method in this class
       javaGrepLambdaImp.process();
     } catch (Exception ex) {
       javaGrepLambdaImp.logger.error(ex.getMessage(), ex);
     }
   }
 
-  /** Implement using lambda and stream APIs */
+  /**
+   * Implement using lambda and stream APIs
+   */
   @Override
   public List<File> listFiles(String rootDir) {
+    List<File> files = new LinkedList<>();
     try {
-      return Files.walk(Paths.get(rootDir))
+      files = Files.walk(Paths.get(rootDir))
           .map(Path::toFile)
           .filter(File::isFile)
           .collect(Collectors.toList());
     } catch (IOException e) {
-      this.logger.error(e.getMessage(), e);
+      logger.error(e.getMessage(), e);
     }
-    return null;
+    return files;
   }
 
-  /** Implement using lambda and stream APIs */
+  /**
+   * Implement using lambda and stream APIs
+   */
   @Override
   public List<String> readLines(File inputFile) {
     if (!inputFile.isFile()) {
       throw new IllegalArgumentException(inputFile + " is not a file");
     }
+    List<String> lines = new LinkedList<>();
     try {
-      return Files.lines(inputFile.toPath(), StandardCharsets.UTF_8).collect(Collectors.toList());
+      lines = Files.lines(inputFile.toPath(), StandardCharsets.UTF_8).collect(Collectors.toList());
     } catch (IOException e) {
-      this.logger.error(e.getMessage(), e);
+      logger.error(e.getMessage(), e);
     }
-    return null;
+    return lines;
   }
 }
