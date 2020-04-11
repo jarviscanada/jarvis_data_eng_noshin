@@ -2,7 +2,6 @@ package ca.jrvs.apps.twitter.dao;
 
 import ca.jrvs.apps.twitter.dao.helper.HttpHelper;
 import ca.jrvs.apps.twitter.example.JsonParser;
-import ca.jrvs.apps.twitter.model.Coordinates;
 import ca.jrvs.apps.twitter.model.Hashtag;
 import ca.jrvs.apps.twitter.model.Tweet;
 import ca.jrvs.apps.twitter.model.UserMention;
