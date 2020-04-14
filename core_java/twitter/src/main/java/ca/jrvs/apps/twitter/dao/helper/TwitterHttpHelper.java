@@ -66,6 +66,16 @@ public class TwitterHttpHelper implements HttpHelper {
     }
   }
 
+  /**
+   * executes HTTP request if HTTP method is POST or GET
+   *
+   * @param method
+   * @param uri
+   * @param stringEntity
+   * @return http response to the sent request
+   * @throws OAuthException
+   * @throws IOException
+   */
   private HttpResponse executeHttpRequest(HttpMethod method, URI uri, StringEntity stringEntity)
       throws OAuthException, IOException {
     if (method == HttpMethod.POST) {

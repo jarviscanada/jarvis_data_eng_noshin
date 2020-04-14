@@ -27,6 +27,11 @@ public class TwitterDao implements CrdDao<Tweet, String> {
    */
   private HttpHelper httpHelper;
 
+  /**
+   * Constructor Setup dependency
+   *
+   * @param httpHelper
+   */
   public TwitterDao(HttpHelper httpHelper) {
     this.httpHelper = httpHelper;
   }
@@ -49,6 +54,13 @@ public class TwitterDao implements CrdDao<Tweet, String> {
     return jsonParser(response);
   }
 
+  /**
+   * Create URI for posting a tweet
+   *
+   * @param entity
+   * @return HTTP post URI
+   * @throws URISyntaxException
+   */
   private URI getCreateURI(Tweet entity) throws URISyntaxException {
     String status = entity.getText();
     float[] coordinates = entity.getCoordinates().getLongLat();
@@ -88,6 +100,13 @@ public class TwitterDao implements CrdDao<Tweet, String> {
     return jsonParser(response);
   }
 
+  /**
+   * Create URI for retrieving a tweet given its id
+   *
+   * @param id
+   * @return HTTP get URI
+   * @throws URISyntaxException
+   */
   private URI getReadUri(String id) throws URISyntaxException {
     StringBuilder stringBuilder = new StringBuilder(API_BASE_URI);
     stringBuilder.append(READ_PATH);
@@ -114,6 +133,13 @@ public class TwitterDao implements CrdDao<Tweet, String> {
     return jsonParser(response);
   }
 
+  /**
+   * Create a URI for deleting a tweet
+   *
+   * @param id
+   * @return HTTP post URI
+   * @throws URISyntaxException
+   */
   private URI getDeleteUri(String id) throws URISyntaxException {
     StringBuilder stringBuilder = new StringBuilder(API_BASE_URI);
     stringBuilder.append(DELETE_PATH);
@@ -122,6 +148,13 @@ public class TwitterDao implements CrdDao<Tweet, String> {
     return new URI(stringBuilder.toString());
   }
 
+  /**
+   * Parses Http response (JSON) into a tweet object using the JsonParser class if the response has
+   * status code 200
+   *
+   * @param response
+   * @return parsed tweet
+   */
   protected Tweet jsonParser(HttpResponse response) {
     Tweet tweet = null;
     int status = response.getStatusLine().getStatusCode();

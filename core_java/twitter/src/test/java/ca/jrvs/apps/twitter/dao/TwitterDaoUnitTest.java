@@ -30,7 +30,7 @@ public class TwitterDaoUnitTest {
 
   @Test
   public void createTweet() throws Exception {
-    String status = "@someone sometext2 #abc 1586810461125";
+    String status = "some text #abc 1586810461125";
     float[] longLat = {1, -1};
     String hashtag = "#abc";
     Coordinates coordinates = new Coordinates(longLat, "Point");
