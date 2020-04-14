@@ -58,7 +58,7 @@ public class JsonParser {
   /**
    * Convert a java object to JSON string
    *
-   * @param object input object
+   * @param object            input object
    * @param prettyJson
    * @param includeNullValues
    * @return JSON String
@@ -78,6 +78,7 @@ public class JsonParser {
 
   /**
    * Parse JSON string to an object
+   *
    * @param json  JSON string
    * @param clazz object class
    * @param <T>   Type

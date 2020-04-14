@@ -3,38 +3,53 @@ package ca.jrvs.apps.twitter.dao.helper;
 import java.net.URI;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
+import org.junit.Before;
 import org.junit.Test;
 
 public class TwitterHttpHelperTest {
 
-  String CONSUMER_KEY = System.getenv("consumerKey");
-  String CONSUMER_SECRET = System.getenv("consumerSecret");
-  String ACCESS_TOKEN = System.getenv("accessToken");
-  String TOKEN_SECRET = System.getenv("tokenSecret");
+  private TwitterHttpHelper twitterHttpHelper;
+  private URI uri;
+  private HttpResponse response;
 
-  TwitterHttpHelper twitterHttpHelper = new TwitterHttpHelper(CONSUMER_KEY, CONSUMER_SECRET,
-      ACCESS_TOKEN, TOKEN_SECRET);
-  URI uri;
-  HttpResponse response;
+  @Before
+  public void setUp() {
+    String CONSUMER_KEY = System.getenv("consumerKey");
+    String CONSUMER_SECRET = System.getenv("consumerSecret");
+    String ACCESS_TOKEN = System.getenv("accessToken");
+    String TOKEN_SECRET = System.getenv("tokenSecret");
 
+    twitterHttpHelper = new TwitterHttpHelper(CONSUMER_KEY, CONSUMER_SECRET,
+        ACCESS_TOKEN, TOKEN_SECRET);
+  }
 
-  @Test(expected = RuntimeException.class)
-  public void httpPost() throws Exception {
+  @Test
+  public void whenURIisCorrectHttpPostMethodShouldCreateNewPost() throws Exception {
+    String status = "TestingTwitterHttpHelperPost" + System.currentTimeMillis();
     uri = new URI(
-        "https://api.twitter.com/1.1/statuses/update.json?status=TestingTwitterHttpHelperPost2");
-    response = twitterHttpHelper.httpPost(uri);
-    System.out.println(EntityUtils.toString(response.getEntity()));
-    uri = new URI(
-        "https://api.twiter.com/1.1/statuses/update.json?status=TestingTwitterHttpHelperPost2");
+        "https://api.twitter.com/1.1/statuses/update.json?status=" + status);
     response = twitterHttpHelper.httpPost(uri);
     System.out.println(EntityUtils.toString(response.getEntity()));
   }
 
   @Test(expected = RuntimeException.class)
-  public void httpGet() throws Exception {
+  public void whenURIisIncorrectHttpPostMethodShouldThrowRuntimeException() throws Exception {
+    String status = "TestingTwitterHttpHelperPost" + System.currentTimeMillis();
+    uri = new URI(
+        "https://api.twiter.com/1.1/statuses/update.json?status=" + status);
+    response = twitterHttpHelper.httpPost(uri);
+    System.out.println(EntityUtils.toString(response.getEntity()));
+  }
+
+  @Test
+  public void whenURIisCorrectHttpGetMethodShouldRetrievePost() throws Exception {
     uri = new URI("https://api.twitter.com/1.1/statuses/show.json?id=1247691063831207936");
     response = twitterHttpHelper.httpGet(uri);
     System.out.println(EntityUtils.toString(response.getEntity()));
+  }
+
+  @Test(expected = RuntimeException.class)
+  public void whenURIisIncorrectHttpGetMethodShouldThrowRuntimeException() throws Exception {
     uri = new URI("https://api.twtter.com/1.1/statuses/show.json?id=1247691063831207936");
     response = twitterHttpHelper.httpGet(uri);
     System.out.println(EntityUtils.toString(response.getEntity()));
