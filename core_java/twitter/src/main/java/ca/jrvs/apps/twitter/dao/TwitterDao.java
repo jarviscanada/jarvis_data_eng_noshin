@@ -122,7 +122,7 @@ public class TwitterDao implements CrdDao<Tweet, String> {
     return new URI(stringBuilder.toString());
   }
 
-  public Tweet jsonParser(HttpResponse response) {
+  protected Tweet jsonParser(HttpResponse response) {
     Tweet tweet = null;
     int status = response.getStatusLine().getStatusCode();
     if (status != HttpStatus.SC_OK) {
