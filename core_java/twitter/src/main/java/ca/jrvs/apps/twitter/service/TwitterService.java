@@ -5,7 +5,9 @@ import ca.jrvs.apps.twitter.model.Coordinates;
 import ca.jrvs.apps.twitter.model.Tweet;
 import java.util.LinkedList;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 
+@org.springframework.stereotype.Service
 public class TwitterService implements Service {
 
   /**
@@ -18,6 +20,7 @@ public class TwitterService implements Service {
    *
    * @param dao
    */
+  @Autowired
   public TwitterService(CrdDao dao) {
     this.dao = dao;
   }

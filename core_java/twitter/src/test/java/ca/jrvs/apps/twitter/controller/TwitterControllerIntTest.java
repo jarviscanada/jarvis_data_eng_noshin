@@ -1,16 +1,16 @@
 package ca.jrvs.apps.twitter.controller;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import ca.jrvs.apps.twitter.dao.TwitterDao;
 import ca.jrvs.apps.twitter.dao.helper.HttpHelper;
 import ca.jrvs.apps.twitter.dao.helper.TwitterHttpHelper;
-import ca.jrvs.apps.twitter.model.Coordinates;
 import ca.jrvs.apps.twitter.model.Tweet;
 import ca.jrvs.apps.twitter.service.Service;
 import ca.jrvs.apps.twitter.service.TwitterService;
 import java.util.List;
-import java.util.stream.Stream;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -38,7 +38,7 @@ public class TwitterControllerIntTest {
   public void shouldPostTweet() {
     String status = "some text #abc " + System.currentTimeMillis();
     String hashtag = "#abc";
-    String [] args = {"post", status, "1:-1"};
+    String[] args = {"post", status, "1:-1"};
 
     Tweet tweet = controller.postTweet(args);
 
@@ -56,7 +56,7 @@ public class TwitterControllerIntTest {
   public void ShouldThrowIllegalArgumentExceptionForWrongLatitude() {
     String status = "some text #abc " + System.currentTimeMillis();
     String hashtag = "#abc";
-    String [] args = {"post", "status", "1:-100"};
+    String[] args = {"post", "status", "1:-100"};
 
     Tweet tweet = controller.postTweet(args);
   }
@@ -67,7 +67,7 @@ public class TwitterControllerIntTest {
     String status = "some text #abc 1586902399442";
     float[] longLat = {1, -1};
     String hashtag = "#abc";
-    String [] args = {"show", id};
+    String[] args = {"show", id};
 
     Tweet tweet = controller.showTweet(args);
 
@@ -83,7 +83,7 @@ public class TwitterControllerIntTest {
   @Test(expected = IllegalArgumentException.class)
   public void shouldThrowIllegalArgumentExceptionForWrongIdFormat() {
     String id = "string";
-    String [] args = {"show",id};
+    String[] args = {"show", id};
 
     Tweet tweet = controller.showTweet(args);
   }
@@ -93,7 +93,7 @@ public class TwitterControllerIntTest {
     String ids = "1250179956971315206,1250175077703958530";
     String firstStatus = "some text #abc 1586901102939";
     String secondStatus = "some text #abc 1586899939445";
-    String [] args = {"delete", ids};
+    String[] args = {"delete", ids};
 
     List<Tweet> tweets = controller.deleteTweet(args);
 
@@ -104,7 +104,7 @@ public class TwitterControllerIntTest {
   @Test(expected = IllegalArgumentException.class)
   public void shouldThrowIllegalArgumentExceptionForWrongIdFormats() {
     String ids = "string,string2";
-    String [] args = {"delete", ids};
+    String[] args = {"delete", ids};
     List<Tweet> tweet = controller.deleteTweet(args);
   }
 

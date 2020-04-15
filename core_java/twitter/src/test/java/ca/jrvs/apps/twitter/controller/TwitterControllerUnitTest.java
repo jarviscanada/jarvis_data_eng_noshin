@@ -1,6 +1,6 @@
 package ca.jrvs.apps.twitter.controller;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -31,7 +31,7 @@ public class TwitterControllerUnitTest {
     String hashtag = "#abc";
     Coordinates coordinates = new Coordinates(longLat, "Point");
     Tweet newTweet = new Tweet(status, coordinates);
-    String [] args ={"post", status, "1:-1"};
+    String[] args = {"post", status, "1:-1"};
 
     when(service.postTweet(any())).thenReturn(newTweet);
     Tweet tweet = controller.postTweet(args);
@@ -41,7 +41,7 @@ public class TwitterControllerUnitTest {
   @Test(expected = IllegalArgumentException.class)
   public void shouldThrowIllegalArgExcpForWrongLatitude() {
     String status = "some text #abc 1586810461125";
-    String  [] args = {"post", status, "1:-100"};
+    String[] args = {"post", status, "1:-100"};
 
     when(service.postTweet(any())).thenThrow(IllegalArgumentException.class);
     Tweet tweet = controller.postTweet(args);
@@ -55,7 +55,7 @@ public class TwitterControllerUnitTest {
     Coordinates coordinates = new Coordinates(longLat, "Point");
     String hashtag = "#abc";
     Tweet newTweet = new Tweet(status, coordinates);
-    String [] args = {"show", id};
+    String[] args = {"show", id};
 
     when(service.showTweet(any(), any())).thenReturn(newTweet);
     Tweet tweet = controller.showTweet(args);
@@ -65,7 +65,7 @@ public class TwitterControllerUnitTest {
   @Test(expected = IllegalArgumentException.class)
   public void shouldThrowIllegalArgExcpForWrongIdFormat() {
     String id = "somestring";
-    String [] args = {"show", id};
+    String[] args = {"show", id};
 
     when(service.showTweet(any(), any())).thenThrow(IllegalArgumentException.class);
     Tweet tweet = controller.showTweet(args);
@@ -76,12 +76,12 @@ public class TwitterControllerUnitTest {
     String ids = "1250180206020694019,1250173916997451778";
     String firstStatus = "some text #abc 1586901162179";
     String secondStatus = "some text #abc 1586899662404";
-    float [] longLat = {1,-1};
+    float[] longLat = {1, -1};
     Coordinates coordinates = new Coordinates(longLat, "Point");
     List<Tweet> tweets = new LinkedList<>();
     tweets.add(new Tweet(firstStatus, coordinates));
     tweets.add(new Tweet(secondStatus, coordinates));
-    String [] args = {"delete", ids};
+    String[] args = {"delete", ids};
 
     when(service.deleteTweets(any())).thenReturn(tweets);
     List<Tweet> deletedTweets = controller.deleteTweet(args);
@@ -93,7 +93,7 @@ public class TwitterControllerUnitTest {
   @Test(expected = IllegalArgumentException.class)
   public void shouldThrowIllegalArgExcpForWrongIdFormats() {
     String ids = "somestring,somestring2";
-    String [] args = {"delete", ids};
+    String[] args = {"delete", ids};
 
     when(service.deleteTweets(any())).thenThrow(IllegalArgumentException.class);
     List<Tweet> tweet = controller.deleteTweet(args);
