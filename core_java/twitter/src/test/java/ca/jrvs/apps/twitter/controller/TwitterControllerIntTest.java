@@ -1,21 +1,22 @@
-package ca.jrvs.apps.twitter.service;
+package ca.jrvs.apps.twitter.controller;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import ca.jrvs.apps.twitter.dao.TwitterDao;
 import ca.jrvs.apps.twitter.dao.helper.HttpHelper;
 import ca.jrvs.apps.twitter.dao.helper.TwitterHttpHelper;
 import ca.jrvs.apps.twitter.model.Coordinates;
 import ca.jrvs.apps.twitter.model.Tweet;
+import ca.jrvs.apps.twitter.service.Service;
+import ca.jrvs.apps.twitter.service.TwitterService;
 import java.util.List;
+import java.util.stream.Stream;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TwitterServiceIntTest {
+public class TwitterControllerIntTest {
 
-  private TwitterService service;
+  private TwitterController controller;
 
   @Before
   public void setUp() throws Exception {
@@ -28,19 +29,18 @@ public class TwitterServiceIntTest {
     HttpHelper twitterHttpHelper = new TwitterHttpHelper(CONSUMER_KEY, CONSUMER_SECRET,
         ACCESS_TOKEN, TOKEN_SECRET);
     TwitterDao dao = new TwitterDao(twitterHttpHelper);
+    Service service = new TwitterService(dao);
     //pass dependency
-    service = new TwitterService(dao);
+    controller = new TwitterController(service);
   }
 
   @Test
-  public void ShouldPostTweet() {
+  public void shouldPostTweet() {
     String status = "some text #abc " + System.currentTimeMillis();
-    float[] longLat = {1, -1};
     String hashtag = "#abc";
-    Coordinates coordinates = new Coordinates(longLat, "Point");
-    Tweet actualTweet = new Tweet(status, coordinates);
+    String [] args = {"post", status, "1:-1"};
 
-    Tweet tweet = service.postTweet(actualTweet);
+    Tweet tweet = controller.postTweet(args);
 
     assertEquals(status, tweet.getText());
     assertNotNull(tweet.getCoordinates());
@@ -55,22 +55,22 @@ public class TwitterServiceIntTest {
   @Test(expected = IllegalArgumentException.class)
   public void ShouldThrowIllegalArgumentExceptionForWrongLatitude() {
     String status = "some text #abc " + System.currentTimeMillis();
-    float[] longLat = {1, -100};
     String hashtag = "#abc";
-    Coordinates coordinates = new Coordinates(longLat, "Point");
-    Tweet actualTweet = new Tweet(status, coordinates);
+    String [] args = {"post", "status", "1:-100"};
 
-    Tweet tweet = service.postTweet(actualTweet);
+    Tweet tweet = controller.postTweet(args);
   }
 
   @Test
   public void shouldShowTweet() {
-    String id = "1250179231147065351";
-    String status = "some text #abc 1586900929509";
+    String id = "1250185392676130816";
+    String status = "some text #abc 1586902399442";
     float[] longLat = {1, -1};
     String hashtag = "#abc";
+    String [] args = {"show", id};
 
-    Tweet tweet = service.showTweet(id, null);
+    Tweet tweet = controller.showTweet(args);
+
     assertEquals(status, tweet.getText());
     assertNotNull(tweet.getCoordinates());
     assertEquals(2, tweet.getCoordinates().getLongLat().length);
@@ -83,16 +83,19 @@ public class TwitterServiceIntTest {
   @Test(expected = IllegalArgumentException.class)
   public void shouldThrowIllegalArgumentExceptionForWrongIdFormat() {
     String id = "string";
-    Tweet tweet = service.showTweet(id, null);
+    String [] args = {"show",id};
+
+    Tweet tweet = controller.showTweet(args);
   }
 
   @Test
   public void shouldDeleteTweets() {
-    String[] ids = {"1250174642461069313", "1250171785074614272"};
-    String firstStatus = "some text #abc 1586899835808";
-    String secondStatus = "some text #abc 1586899152923";
+    String ids = "1250179956971315206,1250175077703958530";
+    String firstStatus = "some text #abc 1586901102939";
+    String secondStatus = "some text #abc 1586899939445";
+    String [] args = {"delete", ids};
 
-    List<Tweet> tweets = service.deleteTweets(ids);
+    List<Tweet> tweets = controller.deleteTweet(args);
 
     assertEquals(firstStatus, tweets.get(0).getText());
     assertEquals(secondStatus, tweets.get(1).getText());
@@ -100,7 +103,9 @@ public class TwitterServiceIntTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void shouldThrowIllegalArgumentExceptionForWrongIdFormats() {
-    String[] ids = {"string", "string2"};
-    List<Tweet> tweet = service.deleteTweets(ids);
+    String ids = "string,string2";
+    String [] args = {"delete", ids};
+    List<Tweet> tweet = controller.deleteTweet(args);
   }
+
 }

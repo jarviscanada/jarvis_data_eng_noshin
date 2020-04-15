@@ -1,5 +1,7 @@
 package ca.jrvs.apps.twitter.dao;
 
+import ca.jrvs.apps.twitter.model.Tweet;
+
 public interface CrdDao<T, ID> {
 
   /**
@@ -24,6 +26,6 @@ public interface CrdDao<T, ID> {
    * @param id of the entity to be deleted
    * @return deleted entity
    */
-  T deleteById(ID id);
+  Tweet deleteById(ID id);
 }
 

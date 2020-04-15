@@ -54,8 +54,8 @@ public class TwitterDaoIntTest {
 
   @Test
   public void shouldFindPostById() {
-    String id = "1250173525123571712";
-    String status = "some text #abc 1586899568652";
+    String id = "1250209754716221440";
+    String status = "some text #abc 1586908207097";
     float[] longLat = {1, -1};
     String hashtag = "#abc";
 
@@ -71,8 +71,8 @@ public class TwitterDaoIntTest {
 
   @Test
   public void shouldDeletePostById() {
-    String id = "1250173525123571712";
-    String status = "some text #abc 1586899568652";
+    String id = "1250209754716221440";
+    String status = "some text #abc 1586908207097";
     float[] longLat = {1, -1};
     String hashtag = "#abc";
 

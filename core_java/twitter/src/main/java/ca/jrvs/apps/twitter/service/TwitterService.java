@@ -98,7 +98,7 @@ public class TwitterService implements Service {
     List<Tweet> deletedTweets = new LinkedList<>();
     for (String id : ids) {
       validateId(id);
-      deletedTweets.add((Tweet) dao.deleteById(id));
+      deletedTweets.add(dao.deleteById(id));
     }
     return deletedTweets;
   }
