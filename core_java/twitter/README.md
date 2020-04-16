@@ -1,4 +1,4 @@
-#TwitterCLI
+# TwitterCLI
 
 ## Introduction
 The TwitterCLI application is an MVC (minus V) based application which helps users create, read 
