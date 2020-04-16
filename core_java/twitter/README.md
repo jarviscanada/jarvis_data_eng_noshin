@@ -1,6 +1,7 @@
 # TwitterCLI
 
 ## Introduction
+
 The TwitterCLI application is an MVC (minus V) based application which helps users create, read 
 and delete posts on Twitter using Twitter Rest API. The application has four versions - a regular 
 one (TwitterCliApp), a Spring Framework's Bean approach based one (TwitterCLIBean), a Spring 
@@ -10,30 +11,32 @@ Framework's ComponentScan based one (TwitterCLIComponentScan) and a Spring boot 
  Integration testing using JUnit4 and Mockito framework. 
     
 ## Design
+
 The class diagram of TwitterCLI application is shown below:
 
 ![Class Diagram of TwitterCLI](assets/TwitterCLIClassDiagram.png)
 
 The different components of the TwitterCLI application are described below:
-* TwitterHttpHelper - This class is an implementation of the HttpHelper interface and is responsible
+* **TwitterHttpHelper** - This class is an implementation of the HttpHelper interface and is responsible
  for sending and receiving HTTP POST/GET requests and responses respectively. 
-* TwitterDao - This class is an implementation of the CrdDao interface and is responsible for
+* **TwitterDao** - This class is an implementation of the CrdDao interface and is responsible for
 generating HTTP POST/GET URIs for creating/reading/deleting tweets. It passes the generated URIs to 
 TwitterHttpHelper for executing the HTTP request and parses the HTTP response from TwitterHttpHelper
  into a Tweet object.
-* TwitterService - This class is an implementation of the Service interface and is responsible for 
+* **TwitterService** - This class is an implementation of the Service interface and is responsible for 
 handling the business logic of the TwitterCLI application. When it is asked to post a tweet, it 
 validates the length of the tweet and the range of the geo coordinates. When it is asked to 
 show/delete a tweet, given the ID of the tweet, it validates the ID formats. Once the validation is 
 complete, it asks TwitterDao to perform the corresponding action (create, read, delete).
-* TwitterController - This class is an implementation of the Controller interface and is responsible
+* **TwitterController** - This class is an implementation of the Controller interface and is responsible
  for parsing the command line arguments passed by the user and calling the appropriate method of 
  TwitterService.
-* TwitterCLIApp - This class is the entry point of the application (main class). It initializes all 
+* **TwitterCLIApp** - This class is the entry point of the application (main class). It initializes all 
 the components (dependencies) of the TwitterCLI application, parses the user input and calls 
 appropriate method of TwitterController.     
     
 ## Quick Start
+
 **Build package for TwitterCLI app**
 
 1.Use the following commands to setup Twitter OAuth 1.0 authentication keys and secrets (consumer 
@@ -50,6 +53,7 @@ export tokenSecret=XXXXX
 ``` bash
 mvn package
 ```
+
 **Run TwitterCLI Application**
 
 1.Use the following command to run the TwitterCLI application to post/show/delete tweets:
@@ -64,6 +68,7 @@ java -jar target/java_apps-1.0-SNAPSHOT.jar delete <CommaSeparatedListOfTweetIDs
 ```
 
 ## Model
+
 The Model of TwitterCLI application is implemented using five POJOs all of which help in representing a simplified version of 
 Twitter's Tweet object:
 1. Tweet
