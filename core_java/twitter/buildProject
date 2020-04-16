@@ -1,6 +1,0 @@
-export consumerKey=XXXXX
-export consumerSecret=XXXXX
-export accessToken=XXXXX
-export tokenSecret=XXXXX
-
-/opt/maven/bin/mvn package
