@@ -17,20 +17,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class TwitterHttpHelper implements HttpHelper {
 
-  /**
-   * Dependencies
-   */
   private OAuthConsumer consumer;
   private HttpClient httpClient;
 
-  /**
-   * Constructor Setup dependencies using secrets
-   *
-   * @param consumerKey
-   * @param consumerSecret
-   * @param accessToken
-   * @param tokenSecret
-   */
   public TwitterHttpHelper(String consumerKey, String consumerSecret, String accessToken,
       String tokenSecret) {
     consumer = new CommonsHttpOAuthConsumer(consumerKey, consumerSecret);
@@ -56,7 +45,7 @@ public class TwitterHttpHelper implements HttpHelper {
    * Execute a HTTP Post call
    *
    * @param uri
-   * @return
+   * @return a HTTP response
    */
   @Override
   public HttpResponse httpPost(URI uri) {
@@ -71,7 +60,7 @@ public class TwitterHttpHelper implements HttpHelper {
    * Execute a HTTP Get call
    *
    * @param uri
-   * @return
+   * @return a HTTP response
    */
   @Override
   public HttpResponse httpGet(URI uri) {

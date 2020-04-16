@@ -2,11 +2,12 @@ package ca.jrvs.apps.twitter.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 import ca.jrvs.apps.twitter.dao.CrdDao;
-import ca.jrvs.apps.twitter.model.Coordinates;
 import ca.jrvs.apps.twitter.model.Tweet;
+import ca.jrvs.apps.twitter.util.TweetUtil;
 import java.util.LinkedList;
 import java.util.List;
 import org.junit.Test;
@@ -26,24 +27,17 @@ public class TwitterServiceUnitTest {
 
   @Test
   public void shouldPostTweet() {
-    String status = "some text #abc 1586810461125";
-    float[] longLat = {1, -1};
-    String hashtag = "#abc";
-    Coordinates coordinates = new Coordinates(longLat, "Point");
-    Tweet newTweet = new Tweet(status, coordinates);
+    Tweet newTweet = TweetUtil.createTweet();
 
     when(dao.create(any())).thenReturn(newTweet);
     Tweet tweet = service.postTweet(newTweet);
+
     assertEquals(tweet.getText(), newTweet.getText());
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void shouldThrowIllegalArgExcpForWrongLatitude() {
-    String status = "some text #abc 1586810461125";
-    float[] longLat = {1, -100};
-    String hashtag = "#abc";
-    Coordinates coordinates = new Coordinates(longLat, "Point");
-    Tweet newTweet = new Tweet(status, coordinates);
+    Tweet newTweet = TweetUtil.createTweetWithWrongLatitude();
 
     Tweet tweet = service.postTweet(newTweet);
   }
@@ -51,25 +45,17 @@ public class TwitterServiceUnitTest {
   @Test
   public void shouldShowTweet() {
     String id = "1250185392676130816";
-    String status = "some text #abc 1586902399442";
-    float[] longLat = {1, -1};
-    Coordinates coordinates = new Coordinates(longLat, "Point");
-    String hashtag = "#abc";
-    Tweet newTweet = new Tweet(status, coordinates);
+    Tweet newTweet = TweetUtil.createTweet();
 
-    when(dao.findById(any())).thenReturn(newTweet);
+    when(dao.findById(anyString())).thenReturn(newTweet);
     Tweet tweet = service.showTweet(id, null);
+
     assertEquals(tweet.getText(), newTweet.getText());
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void shouldThrowIllegalArgExcpForWrongIdFormat() {
     String id = "somestring";
-    String status = "some text #abc 15869023992";
-    float[] longLat = {1, -100};
-    String hashtag = "#abc";
-    Coordinates coordinates = new Coordinates(longLat, "Point");
-    Tweet newTweet = new Tweet(status, coordinates);
 
     Tweet tweet = service.showTweet(id, null);
   }
@@ -77,15 +63,11 @@ public class TwitterServiceUnitTest {
   @Test
   public void shouldDeleteTweets() {
     String[] ids = {"1250185392676130816"};
-    String status = "some text #abc 1586902399442";
-    float[] longLat = {1, -1};
-    Coordinates coordinates = new Coordinates(longLat, "Point");
-    String hashtag = "#abc";
-    Tweet firstTweet = new Tweet(status, coordinates);
+    Tweet firstTweet = TweetUtil.createTweet();
     List<Tweet> tweets = new LinkedList<>();
     tweets.add(firstTweet);
 
-    when(dao.deleteById((any()))).thenReturn(firstTweet);
+    when(dao.deleteById((anyString()))).thenReturn(firstTweet);
     List<Tweet> tweet = service.deleteTweets(ids);
 
     assertEquals(tweets.get(0).getText(), firstTweet.getText());
@@ -94,6 +76,7 @@ public class TwitterServiceUnitTest {
   @Test(expected = IllegalArgumentException.class)
   public void shouldThrowIllegalArgExcpForWrongIdFormats() {
     String[] ids = {"somestring", "somestring2"};
+
     List<Tweet> tweet = service.deleteTweets(ids);
   }
 

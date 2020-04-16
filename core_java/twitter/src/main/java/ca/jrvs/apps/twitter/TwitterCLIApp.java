@@ -6,10 +6,10 @@ import ca.jrvs.apps.twitter.dao.CrdDao;
 import ca.jrvs.apps.twitter.dao.TwitterDao;
 import ca.jrvs.apps.twitter.dao.helper.HttpHelper;
 import ca.jrvs.apps.twitter.dao.helper.TwitterHttpHelper;
-import ca.jrvs.apps.twitter.example.JsonParser;
 import ca.jrvs.apps.twitter.model.Tweet;
 import ca.jrvs.apps.twitter.service.Service;
 import ca.jrvs.apps.twitter.service.TwitterService;
+import ca.jrvs.apps.twitter.util.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,9 +43,7 @@ public class TwitterCLIApp {
     TwitterCLIApp twitterCLIApp = new TwitterCLIApp(controller);
     try {
       twitterCLIApp.run(args);
-    } catch (IllegalArgumentException e) {
-      twitterCLIApp.logger.error(e.getMessage(), e);
-    } catch (RuntimeException e) {
+    } catch (Exception e) {
       twitterCLIApp.logger.error(e.getMessage(), e);
     }
   }

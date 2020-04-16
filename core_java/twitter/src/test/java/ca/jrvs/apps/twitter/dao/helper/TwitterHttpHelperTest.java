@@ -1,5 +1,6 @@
 package ca.jrvs.apps.twitter.dao.helper;
 
+import com.google.gdata.util.common.base.PercentEscaper;
 import java.net.URI;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
@@ -25,9 +26,10 @@ public class TwitterHttpHelperTest {
 
   @Test
   public void whenURIisCorrectHttpPostMethodShouldCreateNewPost() throws Exception {
-    String status = "TestingTwitterHttpHelperPost" + System.currentTimeMillis();
+    String status = "some text #abc" + System.currentTimeMillis();
+    PercentEscaper percentEscaper = new PercentEscaper("", false);
     uri = new URI(
-        "https://api.twitter.com/1.1/statuses/update.json?status=" + status);
+        "https://api.twitter.com/1.1/statuses/update.json?status=" + percentEscaper.escape(status));
     response = twitterHttpHelper.httpPost(uri);
     System.out.println(EntityUtils.toString(response.getEntity()));
   }

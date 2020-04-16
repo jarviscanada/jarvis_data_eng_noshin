@@ -47,7 +47,6 @@ public class TwitterControllerIntTest {
     assertEquals(2, tweet.getCoordinates().getLongLat().length);
     assertEquals(1, tweet.getCoordinates().getLongLat()[0], 0.0001);
     assertEquals(-1, tweet.getCoordinates().getLongLat()[1], 0.0001);
-
     assertTrue(hashtag.contains(tweet.getEntities().getHashtags().get(0).getText()));
 
   }
@@ -55,22 +54,18 @@ public class TwitterControllerIntTest {
   @Test(expected = IllegalArgumentException.class)
   public void ShouldThrowIllegalArgumentExceptionForWrongLatitude() {
     String status = "some text #abc " + System.currentTimeMillis();
-    String hashtag = "#abc";
-    String[] args = {"post", "status", "1:-100"};
+    String[] args = {"post", status, "1:-100"};
 
     Tweet tweet = controller.postTweet(args);
   }
 
   @Test
   public void shouldShowTweet() {
-    String status = "some text #abc " + System.currentTimeMillis();
+    String status = "some text 2 #abc " + System.currentTimeMillis();
     String hashtag = "#abc";
     String[] postArgs = {"post", status, "1:-1"};
     Tweet postedTweet = controller.postTweet(postArgs);
     String id = postedTweet.getIdString();
-    status = postedTweet.getText();
-    float[] longLat = {1, -1};
-
     String[] args = {"show", id};
 
     Tweet tweet = controller.showTweet(args);
@@ -80,7 +75,6 @@ public class TwitterControllerIntTest {
     assertEquals(2, tweet.getCoordinates().getLongLat().length);
     assertEquals(1, tweet.getCoordinates().getLongLat()[0], 0.0001);
     assertEquals(-1, tweet.getCoordinates().getLongLat()[1], 0.0001);
-
     assertTrue(hashtag.contains(tweet.getEntities().getHashtags().get(0).getText()));
   }
 
@@ -94,18 +88,15 @@ public class TwitterControllerIntTest {
 
   @Test
   public void shouldDeleteTweets() {
-    String firstStatus = "some text #abc " + System.currentTimeMillis();
-    String hashtag = "#abc";
+    String firstStatus = "some text 3 #abc " + System.currentTimeMillis();
     String[] firstPostArgs = {"post", firstStatus, "1:-1"};
-    String secondStatus = "some text 2 #abc " + System.currentTimeMillis();
+    String secondStatus = "some text 4 #abc " + System.currentTimeMillis();
     String[] secondPostArgs = {"post", secondStatus, "1:-1"};
     Tweet firstPostedTweet = controller.postTweet(firstPostArgs);
     Tweet secondPostedTweet = controller.postTweet(secondPostArgs);
     String firstId = firstPostedTweet.getIdString();
     String secondId = secondPostedTweet.getIdString();
-    float[] longLat = {1, -1};
-
-    String ids = firstId+","+secondId;
+    String ids = firstId + "," + secondId;
     String[] args = {"delete", ids};
 
     List<Tweet> tweets = controller.deleteTweet(args);
@@ -118,6 +109,7 @@ public class TwitterControllerIntTest {
   public void shouldThrowIllegalArgumentExceptionForWrongIdFormats() {
     String ids = "string,string2";
     String[] args = {"delete", ids};
+
     List<Tweet> tweet = controller.deleteTweet(args);
   }
 

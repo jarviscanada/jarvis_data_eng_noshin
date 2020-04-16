@@ -1,8 +1,8 @@
 package ca.jrvs.apps.twitter.dao;
 
 import ca.jrvs.apps.twitter.dao.helper.HttpHelper;
-import ca.jrvs.apps.twitter.example.JsonParser;
 import ca.jrvs.apps.twitter.model.Tweet;
+import ca.jrvs.apps.twitter.util.JsonParser;
 import com.google.gdata.util.common.base.PercentEscaper;
 import java.io.IOException;
 import java.net.URI;
@@ -25,16 +25,8 @@ public class TwitterDao implements CrdDao<Tweet, String> {
   private static final String AMPERSAND = "&";
   private static final String EQUAL = "=";
 
-  /**
-   * Dependency
-   */
   private HttpHelper httpHelper;
 
-  /**
-   * Constructor Setup dependency
-   *
-   * @param httpHelper
-   */
   @Autowired
   public TwitterDao(HttpHelper httpHelper) {
     this.httpHelper = httpHelper;

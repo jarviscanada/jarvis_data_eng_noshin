@@ -6,9 +6,10 @@ import static org.junit.Assert.assertTrue;
 
 import ca.jrvs.apps.twitter.dao.helper.HttpHelper;
 import ca.jrvs.apps.twitter.dao.helper.TwitterHttpHelper;
-import ca.jrvs.apps.twitter.example.JsonParser;
-import ca.jrvs.apps.twitter.model.Coordinates;
 import ca.jrvs.apps.twitter.model.Tweet;
+import ca.jrvs.apps.twitter.util.JsonParser;
+import ca.jrvs.apps.twitter.util.TweetUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -32,64 +33,53 @@ public class TwitterDaoIntTest {
 
   @Test
   public void shouldCreateNewPost() throws Exception {
-    String status = "some text #abc " + System.currentTimeMillis();
-    float[] longLat = {1, -1};
     String hashtag = "#abc";
-    Coordinates coordinates = new Coordinates(longLat, "Point");
-    Tweet actualTweet = new Tweet(status, coordinates);
+    Tweet actualTweet = TweetUtil.createTweet();
     System.out.println(JsonParser.toJson(actualTweet, true, false));
 
     Tweet tweet = dao.create(actualTweet);
 
-    assertEquals(status, tweet.getText());
+    assertEquals(actualTweet.getText(), tweet.getText());
     assertNotNull(tweet.getCoordinates());
     assertEquals(2, tweet.getCoordinates().getLongLat().length);
     assertEquals(1, tweet.getCoordinates().getLongLat()[0], 0.0001);
     assertEquals(-1, tweet.getCoordinates().getLongLat()[1], 0.0001);
-
     assertTrue(hashtag.contains(tweet.getEntities().getHashtags().get(0).getText()));
     System.out.println(JsonParser.toJson(tweet, true, false));
-    //id = tweet.getIdString();
   }
 
   @Test
-  public void shouldFindPostById() {
-    String status = "some text #abc " + System.currentTimeMillis();
-    float[] longLat = {1, -1};
+  public void shouldFindPostById() throws JsonProcessingException {
     String hashtag = "#abc";
-    Coordinates coordinates = new Coordinates(longLat, "Point");
-    Tweet postTweet = new Tweet(status, coordinates);
+    Tweet postTweet = TweetUtil.createTweet();
+    System.out.println(JsonParser.toJson(postTweet, true, false));
     Tweet postedTweet = dao.create(postTweet);
-
     String id = postedTweet.getIdString();
 
     Tweet tweet = dao.findById(id);
-    assertEquals(status, tweet.getText());
+
+    assertEquals(postTweet.getText(), tweet.getText());
     assertNotNull(tweet.getCoordinates());
     assertEquals(2, tweet.getCoordinates().getLongLat().length);
     assertEquals(1, tweet.getCoordinates().getLongLat()[0], 0.0001);
     assertEquals(-1, tweet.getCoordinates().getLongLat()[1], 0.0001);
-
     assertTrue(hashtag.contains(tweet.getEntities().getHashtags().get(0).getText()));
   }
 
   @Test
   public void shouldDeletePostById() {
-    String status = "some text #abc " + System.currentTimeMillis();
-    float[] longLat = {1, -1};
     String hashtag = "#abc";
-    Coordinates coordinates = new Coordinates(longLat, "Point");
-    Tweet postTweet = new Tweet(status, coordinates);
+    Tweet postTweet = TweetUtil.createTweet();
     Tweet postedTweet = dao.create(postTweet);
-
     String id = postedTweet.getIdString();
+
     Tweet tweet = dao.deleteById(id);
-    assertEquals(status, tweet.getText());
+
+    assertEquals(postTweet.getText(), tweet.getText());
     assertNotNull(tweet.getCoordinates());
     assertEquals(2, tweet.getCoordinates().getLongLat().length);
     assertEquals(1, tweet.getCoordinates().getLongLat()[0], 0.0001);
     assertEquals(-1, tweet.getCoordinates().getLongLat()[1], 0.0001);
-
     assertTrue(hashtag.contains(tweet.getEntities().getHashtags().get(0).getText()));
   }
 }

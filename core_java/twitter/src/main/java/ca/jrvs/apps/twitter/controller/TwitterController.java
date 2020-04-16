@@ -12,16 +12,8 @@ public class TwitterController implements Controller {
   private static final String COORDINATE_SEPARATOR = ":";
   private static final String COMMA = ",";
 
-  /**
-   * Dependency
-   */
   private Service service;
 
-  /**
-   * Dependency setup in constructor
-   *
-   * @param service
-   */
   @Autowired
   public TwitterController(Service service) {
     this.service = service;

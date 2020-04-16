@@ -9,9 +9,9 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
 import ca.jrvs.apps.twitter.dao.helper.TwitterHttpHelper;
-import ca.jrvs.apps.twitter.example.JsonParser;
-import ca.jrvs.apps.twitter.model.Coordinates;
 import ca.jrvs.apps.twitter.model.Tweet;
+import ca.jrvs.apps.twitter.util.JsonParser;
+import ca.jrvs.apps.twitter.util.TweetUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -30,11 +30,7 @@ public class TwitterDaoUnitTest {
 
   @Test
   public void createTweet() throws Exception {
-    String status = "some text #abc 1586810461125";
-    float[] longLat = {1, -1};
-    String hashtag = "#abc";
-    Coordinates coordinates = new Coordinates(longLat, "Point");
-    Tweet newTweet = new Tweet(status, coordinates);
+    Tweet newTweet = TweetUtil.createTweet();
     String jsonString = "{\n"
         + "   \"created_at\":\"Mon Feb 18 21:24:39 +0000 2019\",\n"
         + "   \"id\":1097607853932564480,\n"
@@ -59,7 +55,6 @@ public class TwitterDaoUnitTest {
     } catch (RuntimeException e) {
       assertTrue(true);
     }
-
     //test successful request
     when(mockHelper.httpPost(isNotNull())).thenReturn(null);
     TwitterDao spyDao = Mockito.spy(dao);
@@ -67,6 +62,7 @@ public class TwitterDaoUnitTest {
     //mock jsonParser() method
     doReturn(expectedTweet).when(spyDao).jsonParser(any());
     Tweet tweet = spyDao.create(newTweet);
+
     assertNotNull(tweet);
     assertNotNull(tweet.getText());
   }
@@ -98,7 +94,6 @@ public class TwitterDaoUnitTest {
     } catch (RuntimeException e) {
       assertTrue(true);
     }
-
     //test successful request
     when(mockHelper.httpGet(isNotNull())).thenReturn(null);
     TwitterDao spyDao = Mockito.spy(dao);
@@ -106,6 +101,7 @@ public class TwitterDaoUnitTest {
     //mock jsonParser() method
     doReturn(expectedTweet).when(spyDao).jsonParser(any());
     Tweet tweet = spyDao.findById(id);
+
     assertNotNull(tweet);
     assertNotNull(tweet.getText());
   }
@@ -136,6 +132,7 @@ public class TwitterDaoUnitTest {
     //mock jsonParser() method
     doReturn(expectedTweet).when(spyDao).jsonParser(any());
     Tweet tweet = spyDao.deleteById(id);
+
     assertNotNull(tweet);
     assertNotNull(tweet.getText());
   }
