@@ -63,10 +63,14 @@ public class TwitterControllerIntTest {
 
   @Test
   public void shouldShowTweet() {
-    String id = "1250185392676130816";
-    String status = "some text #abc 1586902399442";
-    float[] longLat = {1, -1};
+    String status = "some text #abc " + System.currentTimeMillis();
     String hashtag = "#abc";
+    String[] postArgs = {"post", status, "1:-1"};
+    Tweet postedTweet = controller.postTweet(postArgs);
+    String id = postedTweet.getIdString();
+    status = postedTweet.getText();
+    float[] longLat = {1, -1};
+
     String[] args = {"show", id};
 
     Tweet tweet = controller.showTweet(args);
@@ -90,9 +94,18 @@ public class TwitterControllerIntTest {
 
   @Test
   public void shouldDeleteTweets() {
-    String ids = "1250179956971315206,1250175077703958530";
-    String firstStatus = "some text #abc 1586901102939";
-    String secondStatus = "some text #abc 1586899939445";
+    String firstStatus = "some text #abc " + System.currentTimeMillis();
+    String hashtag = "#abc";
+    String[] firstPostArgs = {"post", firstStatus, "1:-1"};
+    String secondStatus = "some text 2 #abc " + System.currentTimeMillis();
+    String[] secondPostArgs = {"post", secondStatus, "1:-1"};
+    Tweet firstPostedTweet = controller.postTweet(firstPostArgs);
+    Tweet secondPostedTweet = controller.postTweet(secondPostArgs);
+    String firstId = firstPostedTweet.getIdString();
+    String secondId = secondPostedTweet.getIdString();
+    float[] longLat = {1, -1};
+
+    String ids = firstId+","+secondId;
     String[] args = {"delete", ids};
 
     List<Tweet> tweets = controller.deleteTweet(args);

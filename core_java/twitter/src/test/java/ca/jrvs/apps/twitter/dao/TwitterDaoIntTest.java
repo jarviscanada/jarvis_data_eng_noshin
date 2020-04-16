@@ -54,10 +54,14 @@ public class TwitterDaoIntTest {
 
   @Test
   public void shouldFindPostById() {
-    String id = "1250209754716221440";
-    String status = "some text #abc 1586908207097";
+    String status = "some text #abc " + System.currentTimeMillis();
     float[] longLat = {1, -1};
     String hashtag = "#abc";
+    Coordinates coordinates = new Coordinates(longLat, "Point");
+    Tweet postTweet = new Tweet(status, coordinates);
+    Tweet postedTweet = dao.create(postTweet);
+
+    String id = postedTweet.getIdString();
 
     Tweet tweet = dao.findById(id);
     assertEquals(status, tweet.getText());
@@ -71,11 +75,14 @@ public class TwitterDaoIntTest {
 
   @Test
   public void shouldDeletePostById() {
-    String id = "1250209754716221440";
-    String status = "some text #abc 1586908207097";
+    String status = "some text #abc " + System.currentTimeMillis();
     float[] longLat = {1, -1};
     String hashtag = "#abc";
+    Coordinates coordinates = new Coordinates(longLat, "Point");
+    Tweet postTweet = new Tweet(status, coordinates);
+    Tweet postedTweet = dao.create(postTweet);
 
+    String id = postedTweet.getIdString();
     Tweet tweet = dao.deleteById(id);
     assertEquals(status, tweet.getText());
     assertNotNull(tweet.getCoordinates());

@@ -65,10 +65,14 @@ public class TwitterServiceIntTest {
 
   @Test
   public void shouldShowTweet() {
-    String id = "1250179231147065351";
-    String status = "some text #abc 1586900929509";
+    String status = "some text #abc " + System.currentTimeMillis();
     float[] longLat = {1, -1};
     String hashtag = "#abc";
+    Coordinates coordinates = new Coordinates(longLat, "Point");
+    Tweet postTweet = new Tweet(status, coordinates);
+
+    Tweet postedTweet = service.postTweet(postTweet);
+    String id = postedTweet.getIdString();
 
     Tweet tweet = service.showTweet(id, null);
     assertEquals(status, tweet.getText());
@@ -88,9 +92,20 @@ public class TwitterServiceIntTest {
 
   @Test
   public void shouldDeleteTweets() {
-    String[] ids = {"1250174642461069313", "1250171785074614272"};
-    String firstStatus = "some text #abc 1586899835808";
-    String secondStatus = "some text #abc 1586899152923";
+    String firstStatus = "some text #abc " + System.currentTimeMillis();
+    String secondStatus = "some text 2 #abc " + System.currentTimeMillis();
+    float[] longLat = {1, -1};
+    String hashtag = "#abc";
+    Coordinates coordinates = new Coordinates(longLat, "Point");
+    Tweet firstPostTweet = new Tweet(firstStatus, coordinates);
+    Tweet secondPostTweet = new Tweet(secondStatus, coordinates);
+    Tweet firstPostedTweet = service.postTweet(firstPostTweet);
+    Tweet secondPostedTweet = service.postTweet(secondPostTweet);
+
+    String firstId = firstPostedTweet.getIdString();
+    String secondId = secondPostedTweet.getIdString();
+
+    String[] ids = {firstId, secondId};
 
     List<Tweet> tweets = service.deleteTweets(ids);
 
