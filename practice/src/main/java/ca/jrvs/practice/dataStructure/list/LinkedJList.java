@@ -1,5 +1,8 @@
 package ca.jrvs.practice.dataStructure.list;
 
+import java.util.HashMap;
+import java.util.HashSet;
+
 public class LinkedJList<E> implements JList<E> {
 
   /**
@@ -98,7 +101,7 @@ public class LinkedJList<E> implements JList<E> {
     Object[] tempArray = new Object[size];
     Node n = this.head;
     int i = 0;
-    while (n != null) {
+    while (i<size) {
       tempArray[i] = n.getData();
       i++;
       n = n.next;
@@ -237,6 +240,40 @@ public class LinkedJList<E> implements JList<E> {
       n = n.next;
     }
     return null;
+  }
+
+  /**
+   * Big-O: O(n), where n is the length of list
+   * Justification: iterates over the list only once
+   *
+   * Removes duplicates from the list
+   */
+  public void removeDuplicates(){
+    HashSet<Object> elements = new HashSet<>();
+    Node n = head;
+    int i=0;
+    while(n!=null){
+      if(elements.contains(n.getData())){
+        if (size == 1) {
+          this.head.setData(null);
+        } else {
+          if (n == this.head) {
+            this.head = n.next;
+            this.head.prev = this.head;
+          } else if (n == this.tail) {
+            this.tail = n.prev;
+            this.tail.next = this.tail;
+          } else {
+            n.prev.next = n.next;
+            n.next.prev = n.prev;
+          }
+        }
+        size--;
+      }else{
+        elements.add(n.getData());
+      }
+      n=n.next;
+    }
   }
 
   /**

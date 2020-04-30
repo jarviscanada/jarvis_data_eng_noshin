@@ -97,4 +97,6 @@ interface JList<E> {
    * The list will be empty after this call returns.
    */
   void clear();
+
+  void removeDuplicates();
 }
