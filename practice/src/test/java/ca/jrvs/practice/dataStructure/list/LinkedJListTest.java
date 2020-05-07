@@ -137,6 +137,25 @@ public class LinkedJListTest {
   }
 
   @Test
+  public void shouldRemoveDuplicates() {
+    System.out.println("Testing removeDuplicates()");
+
+    linkedlist.add(1);
+    linkedlist.add(2);
+    linkedlist.add(2);
+    linkedlist.add(5);
+    linkedlist.add(1);
+    linkedlist.add(3);
+    linkedlist.add(4);
+    linkedlist.add(3);
+    linkedlist.removeDuplicates();
+
+    Integer[] expectedArray = {1,2,5,3,4};
+    assertArrayEquals(expectedArray, linkedlist.toArray());
+
+  }
+
+  @Test
   public void clear() {
     System.out.println("Testing clear()");
 
@@ -154,4 +173,5 @@ public class LinkedJListTest {
     linkedlist.clear();
     assertEquals(0, linkedlist.size());
   }
+
 }

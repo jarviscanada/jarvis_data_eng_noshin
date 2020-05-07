@@ -135,4 +135,9 @@ public class ArrayJList<E> implements JList<E> {
     }
     size = 0;
   }
+
+  @Override
+  public void removeDuplicates() {
+
+  }
 }
