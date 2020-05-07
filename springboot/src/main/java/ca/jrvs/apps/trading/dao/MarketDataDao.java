@@ -116,7 +116,6 @@ public class MarketDataDao implements CrudRepository<IexQuote, String> {
   public Optional<IexQuote> findById(String ticker) {
     Optional<IexQuote> iexQuote;
     List<IexQuote> quotes = findAllById(Collections.singletonList(ticker));
-
     if (quotes.size() == 0) {
       return Optional.empty();
     } else if (quotes.size() == 1) {
@@ -159,28 +158,33 @@ public class MarketDataDao implements CrudRepository<IexQuote, String> {
 
     //execute request and check if all tickers were valid
     Optional<String> response = executeHttpGet(url);
-    String responseEntity = response.get();
-    for (String ticker : tickers) {
-      if (!responseEntity.contains(ticker)) {
-        throw new IllegalArgumentException("Invalid ticker : " + ticker);
+    String responseEntity;
+    if (response.isPresent()) {
+      responseEntity = response.get();
+      for (String ticker : tickers) {
+        if (!responseEntity.contains(ticker)) {
+          throw new IllegalArgumentException("Invalid ticker : " + ticker);
+        }
       }
-    }
 
-    //create POJOs
-    JSONObject jsonResponse = new JSONObject(responseEntity);
-    Iterator<String> iterator = jsonResponse.keys();
-    while (iterator.hasNext()) {
-      String symbol = iterator.next();
-      JSONObject jsonQuote = jsonResponse.getJSONObject(symbol);
-      String quoteString = jsonQuote.get("quote").toString();
-      try {
-        quote = parseJson(quoteString, IexQuote.class);
-        quotes.add(quote);
-      } catch (IOException e) {
-        throw new RuntimeException("Failed to create IexQuote object : " + e);
+      //create POJOs
+      JSONObject jsonResponse = new JSONObject(responseEntity);
+      Iterator<String> iterator = jsonResponse.keys();
+      while (iterator.hasNext()) {
+        String symbol = iterator.next();
+        JSONObject jsonQuote = jsonResponse.getJSONObject(symbol);
+        String quoteString = jsonQuote.get("quote").toString();
+        try {
+          quote = parseJson(quoteString, IexQuote.class);
+          quotes.add(quote);
+        } catch (IOException e) {
+          throw new RuntimeException("Failed to create IexQuote object : " + e);
+        }
       }
+      return quotes;
+    } else {
+      throw new IllegalArgumentException("Invalid ticker(s)");
     }
-    return quotes;
   }
 
   /**
