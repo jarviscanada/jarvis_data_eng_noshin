@@ -2,7 +2,7 @@ package ca.jrvs.apps.trading.model.domain;
 
 import java.util.Objects;
 
-public class Quote implements Entity<java.lang.String> {
+public class Quote implements Entity<String> {
 
   private String ticker;
   private Double lastPrice;

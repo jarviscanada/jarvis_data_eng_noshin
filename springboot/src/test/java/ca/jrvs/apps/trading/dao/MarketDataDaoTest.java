@@ -42,7 +42,7 @@ public class MarketDataDaoTest {
   }
 
   @Test(expected = UnsupportedOperationException.class)
-  public void shouldThrowUnsupportedOperationsForSaveMethod(){
+  public void shouldThrowUnsupportedOperationsForSaveMethod() {
     dao.save(new IexQuote());
   }
 

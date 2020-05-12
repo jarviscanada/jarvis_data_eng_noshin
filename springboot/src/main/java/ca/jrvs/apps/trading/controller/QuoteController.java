@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-//@Api(value = "quote", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@Api(value = "quote", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 @Controller
 @RequestMapping("/quote")
 public class QuoteController {
@@ -33,8 +33,8 @@ public class QuoteController {
     this.quoteService = quoteService;
   }
 
-  //@ApiOperation(value = "Show IexQuote", notes = "Show IexQuote for a given ticker/symbol")
-  //@ApiResponses(value = {@ApiResponse(code = 404, message = "ticker not found")})
+  @ApiOperation(value = "Show IexQuote", notes = "Show IexQuote for a given ticker/symbol")
+  @ApiResponse(code = 404, message = "ticker not found")
   @GetMapping(path = "/iex/ticker/{ticker}")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
@@ -46,51 +46,56 @@ public class QuoteController {
     }
   }
 
-  //@ApiOperation(value = "Update quote table using IEX market data", notes = "Update all quotes in the quote table using IEX trading API as data source.")
+  @ApiOperation(value = "Update quote table using IEX market data",
+      notes = "Update all quotes in the quote table using IEX trading API as data source.")
   @PutMapping(path = "/iexMarketData")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
-  public List<Quote> updateMarketData(){
+  public List<Quote> updateMarketData() {
     try {
       return quoteService.updateMarketData();
-    }catch (Exception e){
+    } catch (Exception e) {
       throw ResponseExceptionUtil.getResponseStatusException(e);
     }
   }
 
-  //@ApiOperation(value = "Update a provided quote in the quote table", notes = "Manually update a quote in the quote table using IEX Cloud market data")
+  @ApiOperation(value = "Update a provided quote in the quote table",
+      notes = "Manually update a quote in the quote table using IEX Cloud market data")
   @PutMapping(path = "/")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
-  public Quote putQuote(@RequestBody Quote quote){
-    try{
+  public Quote putQuote(@RequestBody Quote quote) {
+    try {
       return quoteService.saveQuote(quote);
-    }catch (Exception e){
+    } catch (Exception e) {
       throw ResponseExceptionUtil.getResponseStatusException(e);
     }
   }
 
-  //@ApiOperation(value = "Add a new ticker to the daily list (quote table)", notes = "Add a new ticker/symbol to the quote table, so that traders can trade this security.")
+  @ApiOperation(value = "Add a new ticker to the daily list (quote table)",
+      notes = "Add a new ticker/symbol to the quote table, so that traders can trade this security."
+  )
   @PostMapping(path = "/tickerId/{tickerId}")
   @ResponseStatus(HttpStatus.CREATED)
-  //@ApiResponses(value = {@ApiResponse(code = 404, message = "Ticker not found in IEX system")})
+  @ApiResponses(value = {@ApiResponse(code = 404, message = "Ticker not found in IEX system")})
   @ResponseBody
-  public Quote createQuote(@PathVariable String tickerId){
+  public Quote createQuote(@PathVariable String tickerId) {
     try {
       return quoteService.saveQuote(tickerId);
-    }catch (Exception e){
+    } catch (Exception e) {
       throw ResponseExceptionUtil.getResponseStatusException(e);
     }
   }
 
-  //@ApiOperation(value = "Show the daily list of quotes", notes = "Show daily list of quotes for this trading app.")
+  @ApiOperation(value = "Show the daily list of quotes",
+      notes = "Show daily list of quotes for this trading app.")
   @GetMapping(path = "/dailyList")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
-  public List<Quote> getDailyList(){
+  public List<Quote> getDailyList() {
     try {
       return quoteService.findAllQuotes();
-    }catch (Exception e){
+    } catch (Exception e) {
       throw ResponseExceptionUtil.getResponseStatusException(e);
     }
   }
