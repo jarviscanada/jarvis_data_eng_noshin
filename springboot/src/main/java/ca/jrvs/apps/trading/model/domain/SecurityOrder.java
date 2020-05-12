@@ -6,7 +6,7 @@ public class SecurityOrder implements Entity<Integer> {
 
   private Integer id;
   private Integer accountId;
-  private String status;
+  private Status status;
   private String ticker;
   private Integer size;
   private Double price;
@@ -32,11 +32,11 @@ public class SecurityOrder implements Entity<Integer> {
   }
 
   public String getStatus() {
-    return status;
+    return status.string;
   }
 
   public void setStatus(String status) {
-    this.status = status;
+    this.status = Status.valueOf(status);
   }
 
   public String getTicker() {
@@ -106,4 +106,11 @@ public class SecurityOrder implements Entity<Integer> {
         ", notes='" + notes + '\'' +
         '}';
   }
+  private enum Status {FILLED("FILLED"), CANCELLED("CANCELLED"), PENDING("PENDING");
+    String string;
+    Status(String currentStatus) {
+      string = currentStatus;
+    }
+  };
+
 }

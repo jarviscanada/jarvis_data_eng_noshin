@@ -79,6 +79,20 @@ public class PositionDao {
   }
 
   /**
+   * Finds all positions of provided account and ticker in position table
+   *
+   * @param accountId account id to be found
+   * @param ticker    ticker to be found
+   * @return list of found positions
+   */
+  public List<Position> findByIdAndTicker(Integer accountId, String ticker) {
+    return getJdbcTemplate()
+        .query("SELECT * FROM " + getTableName() + " WHERE " + getIdColumnName() + " = ? AND "
+                + getTickerColumnName() + " = ?",
+            BeanPropertyRowMapper.newInstance(getEntityClass()), accountId, ticker);
+  }
+
+  /**
    * Finds all positions in position table
    *
    * @return list of all positions in position table

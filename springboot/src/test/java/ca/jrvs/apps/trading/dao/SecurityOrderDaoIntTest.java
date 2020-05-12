@@ -95,14 +95,14 @@ public class SecurityOrderDaoIntTest {
 
     firstSecurityOrder.setAccountId(1);
     firstSecurityOrder.setTicker("aapl");
-    firstSecurityOrder.setStatus("Some status");
+    firstSecurityOrder.setStatus("FILLED");
     firstSecurityOrder.setSize(4);
     firstSecurityOrder.setPrice(35.23);
     firstSecurityOrder.setNotes("Some notes");
     securityOrderDao.save(firstSecurityOrder);
     secondSecurityOrder.setAccountId(2);
     secondSecurityOrder.setTicker("amzn");
-    secondSecurityOrder.setStatus("Some other status");
+    secondSecurityOrder.setStatus("FILLED");
     secondSecurityOrder.setSize(6);
     secondSecurityOrder.setPrice(46.23);
     secondSecurityOrder.setNotes("Some other notes");
@@ -121,7 +121,7 @@ public class SecurityOrderDaoIntTest {
     SecurityOrder newSecurityOrder = new SecurityOrder();
     newSecurityOrder.setAccountId(2);
     newSecurityOrder.setTicker("aapl");
-    newSecurityOrder.setStatus("Some other status");
+    newSecurityOrder.setStatus("FILLED");
     newSecurityOrder.setSize(6);
     newSecurityOrder.setPrice(46.23);
     newSecurityOrder.setNotes("Some other notes");
@@ -132,7 +132,7 @@ public class SecurityOrderDaoIntTest {
     newSecurityOrder.setId(1);
     newSecurityOrder.setAccountId(2);
     newSecurityOrder.setTicker("aapl");
-    newSecurityOrder.setStatus("Some other status");
+    newSecurityOrder.setStatus("FILLED");
     newSecurityOrder.setSize(6);
     newSecurityOrder.setPrice(46.23);
     newSecurityOrder.setNotes("Some other notes");
@@ -200,20 +200,30 @@ public class SecurityOrderDaoIntTest {
   }
 
   @Test
+  public void deleteAllByAccountId() {
+    securityOrderDao.deleteAllByAccountId(1);
+    SecurityOrder[] expectedSecurityOrders = new SecurityOrder[]{secondSecurityOrder};
+    SecurityOrder[] actualSecurityOrders = new SecurityOrder[1];
+    securityOrderDao.findAll().toArray(actualSecurityOrders);
+
+    assertArrayEquals(expectedSecurityOrders, actualSecurityOrders);
+  }
+
+  @Test
   public void saveAll() {
     List<SecurityOrder> securityOrders = new ArrayList<>();
 
     SecurityOrder newSecurityOrder = new SecurityOrder();
     newSecurityOrder.setAccountId(2);
     newSecurityOrder.setTicker("aapl");
-    newSecurityOrder.setStatus("Some other status");
+    newSecurityOrder.setStatus("FILLED");
     newSecurityOrder.setSize(6);
     newSecurityOrder.setPrice(46.23);
     newSecurityOrder.setNotes("Some other notes");
     SecurityOrder anotherNewSecurityOrder = new SecurityOrder();
     anotherNewSecurityOrder.setAccountId(2);
     anotherNewSecurityOrder.setTicker("aapl");
-    anotherNewSecurityOrder.setStatus("Some other status");
+    anotherNewSecurityOrder.setStatus("FILLED");
     anotherNewSecurityOrder.setSize(6);
     anotherNewSecurityOrder.setPrice(46.23);
     anotherNewSecurityOrder.setNotes("Some other notes");
