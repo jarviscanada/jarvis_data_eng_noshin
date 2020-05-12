@@ -1,32 +1,23 @@
 package ca.jrvs.apps.trading.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import ca.jrvs.apps.trading.model.config.MarketDataConfig;
+import ca.jrvs.apps.trading.TestConfig;
 import ca.jrvs.apps.trading.model.domain.IexQuote;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = {TestConfig.class})
 public class MarketDataDaoTest {
 
+  @Autowired
   private MarketDataDao dao;
-
-  @Before
-  public void init(){
-    PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
-    cm.setMaxTotal(50);
-    cm.setDefaultMaxPerRoute(50);
-    MarketDataConfig marketDataConfig = new MarketDataConfig();
-    marketDataConfig.setHost("https://cloud.iexapis.com/v1/");
-    marketDataConfig.setToken(System.getenv("IEX_PUB_TOKEN"));
-
-    dao = new MarketDataDao(cm, marketDataConfig);
-  }
 
   @Test
   public void shouldFindIexQuoteByTicker() {
@@ -46,8 +37,55 @@ public class MarketDataDaoTest {
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void shouldThrowIllegalArgumentExceptionWhenInvalidTicker(){
-        List<IexQuote> quoteList = dao.findAllById(Arrays.asList("AAPL","FB2"));
+  public void shouldThrowIllegalArgumentExceptionWhenInvalidTicker() {
+    List<IexQuote> quoteList = dao.findAllById(Arrays.asList("AAPL", "ASDFGHJkl"));
   }
 
+  @Test(expected = UnsupportedOperationException.class)
+  public void shouldThrowUnsupportedOperationsForSaveMethod() {
+    dao.save(new IexQuote());
+  }
+
+  @Test(expected = UnsupportedOperationException.class)
+  public void shouldThrowUnsupportedOperationsForSaveAllMethod() {
+    dao.saveAll(null);
+  }
+
+  @Test(expected = UnsupportedOperationException.class)
+  public void shouldThrowUnsupportedOperationsForExistsByIdMethod() {
+    dao.existsById("someString");
+  }
+
+  @Test(expected = UnsupportedOperationException.class)
+  public void shouldThrowUnsupportedOperationsForFindAllMethod() {
+    dao.findAll();
+  }
+
+  @Test(expected = UnsupportedOperationException.class)
+  public void shouldThrowUnsupportedOperationsForCountMethod() {
+    dao.count();
+  }
+
+  @Test(expected = UnsupportedOperationException.class)
+  public void shouldThrowUnsupportedOperationsForDeleteByIdMethod() {
+    dao.deleteById("someString");
+  }
+
+  @Test(expected = UnsupportedOperationException.class)
+  public void shouldThrowUnsupportedOperationsForDeleteIexQuoteMethod() {
+    dao.delete(new IexQuote());
+  }
+
+  @Test(expected = UnsupportedOperationException.class)
+  public void shouldThrowUnsupportedOperationsForDeleteAllMethod() {
+    dao.deleteAll();
+  }
+
+  @Test(expected = UnsupportedOperationException.class)
+  public void shouldThrowUnsupportedOperationsForDeleteAllInIterableMethod() {
+    dao.deleteAll(null);
+  }
+
+
 }
+

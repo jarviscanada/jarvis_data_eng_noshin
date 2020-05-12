@@ -32,9 +32,9 @@ public class SwaggerConfig {
         .paths(any())
         .build()
         .pathMapping("/")
-        .apiInfo(new ApiInfo("Jarvis Trading REST App", "A Spring Rest API", "v1.0", null,
-            new Contact("Noshin Nawar Sadat", "jrvs.ca", "noshin.nawar.sadat@gmail.com"), null,
-            null,
+        .apiInfo(new ApiInfo("Jarvis Trading REST App", "A Spring Rest API",
+            "v1.0", null, new Contact("Noshin Nawar Sadat",
+            "jrvs.ca", "noshin.nawar.sadat@gmail.com"), null, null,
             new ArrayList<>()));
   }
 

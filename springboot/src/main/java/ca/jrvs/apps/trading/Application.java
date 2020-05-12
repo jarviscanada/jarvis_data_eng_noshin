@@ -14,7 +14,8 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
 /**
  * Manually configure DataSource and JDBCTemplate
  */
-@SpringBootApplication(exclude = {JdbcTemplateAutoConfiguration.class,
+@SpringBootApplication(scanBasePackages = "ca.jrvs.apps.trading", exclude = {
+    JdbcTemplateAutoConfiguration.class,
     DataSourceAutoConfiguration.class,
     HibernateJpaAutoConfiguration.class})
 public class Application implements CommandLineRunner {
