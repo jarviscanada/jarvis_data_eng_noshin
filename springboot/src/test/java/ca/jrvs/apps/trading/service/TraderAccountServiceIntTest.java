@@ -5,8 +5,11 @@ import static org.junit.Assert.assertNotEquals;
 
 import ca.jrvs.apps.trading.TestConfig;
 import ca.jrvs.apps.trading.dao.AccountDao;
+import ca.jrvs.apps.trading.dao.SecurityOrderDao;
 import ca.jrvs.apps.trading.dao.TraderDao;
 import ca.jrvs.apps.trading.model.domain.Account;
+import ca.jrvs.apps.trading.model.domain.Position;
+import ca.jrvs.apps.trading.model.domain.SecurityOrder;
 import ca.jrvs.apps.trading.model.domain.Trader;
 import ca.jrvs.apps.trading.model.domain.TraderAccountView;
 import java.time.LocalDate;
@@ -32,6 +35,8 @@ public class TraderAccountServiceIntTest {
   private TraderDao traderDao;
   @Autowired
   private AccountDao accountDao;
+  @Autowired
+  private SecurityOrderDao securityOrderDao;
 
   private Trader firstTrader = new Trader();
   private Trader secondTrader = new Trader();
@@ -61,6 +66,10 @@ public class TraderAccountServiceIntTest {
 
   @Test
   public void testDeleteTraderById() {
+    //when trader ID does not exist
+    expectedException.expect(IllegalArgumentException.class);
+    traderAccountService.deleteTraderById(4);
+
     //when amount and open positions are 0
     firstTrader.setFirstName("John");
     firstTrader.setLastName("Doe");
@@ -68,10 +77,27 @@ public class TraderAccountServiceIntTest {
     firstTrader.setDob(LocalDate.of(2000, 12, 12));
     firstTrader.setEmail("john.doe@gmail.com");
     savedView = traderAccountService.createTraderAndAccount(firstTrader);
+    SecurityOrder securityOrder = new SecurityOrder();
+    securityOrder.setTicker("AAPL");
+    securityOrder.setSize(0);
+    securityOrder.setPrice(32.6);
+    securityOrder.setStatus("FILLED");
+    securityOrder.setAccountId(savedView.getTrader().getId());
+    securityOrder.setNotes("Some notes");
+    securityOrderDao.save(securityOrder);
     traderAccountService.deleteTraderById(savedView.getTrader().getId());
-
     assertEquals(0, traderDao.count());
     assertEquals(0, accountDao.count());
+
+    //when amount is 0 but position is not
+    savedView = traderAccountService.createTraderAndAccount(firstTrader);
+    securityOrder.setSize(2);
+    securityOrderDao.save(securityOrder);
+    expectedException.expect(IllegalArgumentException.class);
+    traderAccountService.deleteTraderById(savedView.getTrader().getId());
+
+
+
 
     //when amount is 100.0
     secondTrader.setFirstName("Jane");

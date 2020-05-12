@@ -65,13 +65,28 @@ public class TraderAccountService {
     }
     Account traderAccount = accountDao.findById(traderId).get();
     List<Position> traderPositions = positionDao.findAllById(Arrays.asList(traderId));
-    if (traderAccount.getAmount() == 0.0 && traderPositions.size() == 0) {
+    if (traderAccount.getAmount() == 0.0 && isPositionClosed(traderPositions)) {
       securityOrderDao.deleteAllByAccountId(traderAccount.getId());
       accountDao.deleteById(traderAccount.getId());
       traderDao.deleteById(traderId);
     } else {
       throw new IllegalArgumentException("Could not delete Trader Account : " + traderId);
     }
+  }
+
+  /**
+   * Helper method to check if all positions are closed
+   *
+   * @param positions list of positions to be checked
+   * @return true if all positions are 0, else false
+   */
+  private boolean isPositionClosed(List<Position> positions) {
+    for(Position position: positions){
+      if(position.getPosition()!=0){
+        return false;
+      }
+    }
+    return true;
   }
 
   /**

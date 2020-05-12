@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 import ca.jrvs.apps.trading.TestConfig;
 import ca.jrvs.apps.trading.model.domain.Account;
+import ca.jrvs.apps.trading.model.domain.IexQuote;
 import ca.jrvs.apps.trading.model.domain.Trader;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -148,6 +150,16 @@ public class AccountDaoIntTest {
     assertEquals(0, accountDao.count());
   }
 
+  @Test(expected = UnsupportedOperationException.class)
+  public void shouldThrowUnsupportedOperationsForDeleteAllInIterableMethod() {
+    accountDao.deleteAll(null);
+  }
+
+  @Test(expected = UnsupportedOperationException.class)
+  public void shouldThrowUnsupportedOperationsForDeleteIexQuoteMethod() {
+    accountDao.delete(new Account());
+  }
+
   @Test
   public void saveAll() {
     List<Account> accounts = new ArrayList<>();
@@ -167,7 +179,14 @@ public class AccountDaoIntTest {
     expectedException.expectMessage("Account not found");
     accountDao.saveAll(accounts);
 
+    //one new account and one old account
     newAccount.setId(1);
+
+    expectedException.expect(IncorrectResultSizeDataAccessException.class);
+    expectedException.expectMessage("Number of rows");
+    accountDao.saveAll(accounts);
+
+    //all old accounts
     anotherNewAccount.setId(2);
 
     //all old accounts
