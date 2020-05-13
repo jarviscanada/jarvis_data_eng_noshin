@@ -88,7 +88,7 @@ public class OrderService {
       account.setAmount(account.getAmount()-totalPrize);
       accountDao.save(account);
       securityOrder.setStatus("FILLED");
-      securityOrder.setNotes(securityOrder.getSize()+" security(s) bought at "+account.getAmount()+".");
+      securityOrder.setNotes(securityOrder.getSize()+" security(s) bought at "+totalPrize+".");
     }else{
       securityOrder.setStatus("CANCELLED");
       securityOrder.setNotes("Insufficient balance.");
@@ -112,7 +112,7 @@ public class OrderService {
         account.setAmount(account.getAmount()+totalPrize);
         accountDao.save(account);
         securityOrder.setStatus("FILLED");
-        securityOrder.setNotes(securityOrder.getSize()+" security(s) sold at "+account.getAmount()+".");
+        securityOrder.setNotes(securityOrder.getSize()+" security(s) sold at "+totalPrize+".");
       }else{
         securityOrder.setStatus("CANCELLED");
         securityOrder.setNotes("Position size is smaller than order size.");

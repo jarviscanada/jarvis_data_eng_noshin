@@ -55,19 +55,8 @@ public class OrderServiceUnitTest {
     MarketOrderDto marketOrderDto = new MarketOrderDto();
     marketOrderDto.setAccountId(1);
     marketOrderDto.setTicker("AAPL");
-    marketOrderDto.setSize(0);
-
-    when(quoteDao.existsById(any())).thenReturn(false);
-    expectedException.expect(IllegalArgumentException.class);
-    expectedException.expectMessage("Ticker does not exist");
-    orderService.executeMarketOrder(marketOrderDto);
-
-    when(quoteDao.existsById(any())).thenReturn(true);
-    expectedException.expect(IllegalArgumentException.class);
-    expectedException.expectMessage("Order size cannot be zero");
-    orderService.executeMarketOrder(marketOrderDto);
-
     marketOrderDto.setSize(2);
+
     Quote quote = new Quote();
     quote.setId("AAPL");
     quote.setAskPrice(35.0);
@@ -76,12 +65,16 @@ public class OrderServiceUnitTest {
     quote.setTicker("AAPL");
     quote.setAskSize(3L);
     quote.setBidSize(4L);
+
     Account account = new Account();
     account.setId(1);
     account.setAmount(100.0);
     account.setTraderId(1);
+
+    when(quoteDao.existsById(any())).thenReturn(true);
     when(quoteDao.findById(any())).thenReturn(java.util.Optional.of(quote));
     when(accountDao.findById(any())).thenReturn(java.util.Optional.of(account));
+
     SecurityOrder expected = new SecurityOrder();
     expected.setId(1);
     expected.setAccountId(1);
@@ -89,6 +82,7 @@ public class OrderServiceUnitTest {
     expected.setPrice(quote.getAskPrice());
     expected.setSize(2);
     expected.setTicker("AAPL");
+    when(securityOrderDao.save(any())).thenAnswer(invocationOnMock -> invocationOnMock.getArguments()[0]);
     SecurityOrder actual = orderService.executeMarketOrder(marketOrderDto);
     assertEquals(expected.getStatus(), actual.getStatus());
     assertEquals(expected.getPrice(), actual.getPrice());

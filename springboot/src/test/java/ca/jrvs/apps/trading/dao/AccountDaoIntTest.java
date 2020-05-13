@@ -73,8 +73,8 @@ public class AccountDaoIntTest {
 
   @After
   public void remove() {
-    accountDao.deleteById(firstAccount.getId());
-    accountDao.deleteById(secondAccount.getId());
+    accountDao.deleteAll();
+    traderDao.deleteAll();
   }
 
   @Test
@@ -165,29 +165,16 @@ public class AccountDaoIntTest {
     List<Account> accounts = new ArrayList<>();
 
     Account newAccount = new Account();
-    newAccount.setTraderId(5);
+    newAccount.setId(2);
+    newAccount.setTraderId(2);
     newAccount.setAmount(1200.5);
     Account anotherNewAccount = new Account();
-    anotherNewAccount.setTraderId(8);
+    anotherNewAccount.setId(1);
+    anotherNewAccount.setTraderId(1);
     anotherNewAccount.setAmount(1200.5);
 
-    //all new accounts
     accounts.add(newAccount);
     accounts.add(anotherNewAccount);
-
-    expectedException.expect(ResourceNotFoundException.class);
-    expectedException.expectMessage("Account not found");
-    accountDao.saveAll(accounts);
-
-    //one new account and one old account
-    newAccount.setId(1);
-
-    expectedException.expect(IncorrectResultSizeDataAccessException.class);
-    expectedException.expectMessage("Number of rows");
-    accountDao.saveAll(accounts);
-
-    //all old accounts
-    anotherNewAccount.setId(2);
 
     //all old accounts
     assertEquals(accounts, accountDao.saveAll(accounts));
