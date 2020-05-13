@@ -1,6 +1,6 @@
 package ca.jrvs.apps.trading.service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -24,15 +24,15 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.jmx.export.annotation.ManagedOperation;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OrderServiceUnitTest {
 
+  @Rule
+  public ExpectedException expectedException = ExpectedException.none();
   //Capture parameter when calling securityOrderDao.save
   @Captor
   ArgumentCaptor<SecurityOrder> captorSecurityOrder;
-
   //mock all dependencies
   @Mock
   private AccountDao accountDao;
@@ -42,13 +42,9 @@ public class OrderServiceUnitTest {
   private QuoteDao quoteDao;
   @Mock
   private PositionDao positionDao;
-
   //Injecting mocked dependencies to the testing class via constructor
   @InjectMocks
   private OrderService orderService;
-
-  @Rule
-  public ExpectedException expectedException = ExpectedException.none();
 
   @Test
   public void executeMarketOrder() {
@@ -82,7 +78,8 @@ public class OrderServiceUnitTest {
     expected.setPrice(quote.getAskPrice());
     expected.setSize(2);
     expected.setTicker("AAPL");
-    when(securityOrderDao.save(any())).thenAnswer(invocationOnMock -> invocationOnMock.getArguments()[0]);
+    when(securityOrderDao.save(any()))
+        .thenAnswer(invocationOnMock -> invocationOnMock.getArguments()[0]);
     SecurityOrder actual = orderService.executeMarketOrder(marketOrderDto);
     assertEquals(expected.getStatus(), actual.getStatus());
     assertEquals(expected.getPrice(), actual.getPrice());

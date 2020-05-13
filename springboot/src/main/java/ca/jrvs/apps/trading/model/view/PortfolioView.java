@@ -1,6 +1,5 @@
 package ca.jrvs.apps.trading.model.view;
 
-import ca.jrvs.apps.trading.model.view.SecurityRow;
 import java.util.List;
 
 public class PortfolioView {

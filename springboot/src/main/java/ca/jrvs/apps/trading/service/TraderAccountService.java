@@ -81,8 +81,8 @@ public class TraderAccountService {
    * @return true if all positions are 0, else false
    */
   private boolean isPositionClosed(List<Position> positions) {
-    for(Position position: positions){
-      if(position.getPosition()!=0){
+    for (Position position : positions) {
+      if (position.getPosition() != 0) {
         return false;
       }
     }

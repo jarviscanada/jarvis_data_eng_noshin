@@ -1,7 +1,6 @@
 package ca.jrvs.apps.trading.service;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 import ca.jrvs.apps.trading.TestConfig;
 import ca.jrvs.apps.trading.dao.AccountDao;

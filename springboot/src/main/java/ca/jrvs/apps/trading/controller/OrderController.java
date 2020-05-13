@@ -32,16 +32,16 @@ public class OrderController {
   }
 
   @ApiOperation(value = "Submit a market order.",
-  notes = "Submit a buy/sell market order.")
+      notes = "Submit a buy/sell market order.")
   @ApiResponses(value = {@ApiResponse(code = 404, message = "Account ID or ticker not found."),
-  @ApiResponse(code = 400, message = "Unable to deposit due to user input.")})
+      @ApiResponse(code = 400, message = "Unable to deposit due to user input.")})
   @PostMapping(path = "/marketOrder")
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
-  public SecurityOrder postMarketOrder(@RequestBody MarketOrderDto marketOrderDto){
-    try{
+  public SecurityOrder postMarketOrder(@RequestBody MarketOrderDto marketOrderDto) {
+    try {
       return orderService.executeMarketOrder(marketOrderDto);
-    }catch (Exception e){
+    } catch (Exception e) {
       throw ResponseExceptionUtil.getResponseStatusException(e);
     }
   }

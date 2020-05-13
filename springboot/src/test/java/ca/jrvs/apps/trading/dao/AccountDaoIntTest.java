@@ -7,7 +7,6 @@ import static org.junit.Assert.assertTrue;
 
 import ca.jrvs.apps.trading.TestConfig;
 import ca.jrvs.apps.trading.model.domain.Account;
-import ca.jrvs.apps.trading.model.domain.IexQuote;
 import ca.jrvs.apps.trading.model.domain.Trader;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -23,7 +22,6 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 

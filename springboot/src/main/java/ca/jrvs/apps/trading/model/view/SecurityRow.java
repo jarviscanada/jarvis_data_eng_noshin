@@ -2,7 +2,6 @@ package ca.jrvs.apps.trading.model.view;
 
 import ca.jrvs.apps.trading.model.domain.Position;
 import ca.jrvs.apps.trading.model.domain.Quote;
-import sun.security.krb5.internal.Ticket;
 
 public class SecurityRow {
 

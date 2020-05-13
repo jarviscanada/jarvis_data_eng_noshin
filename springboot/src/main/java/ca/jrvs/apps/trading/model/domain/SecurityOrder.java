@@ -106,11 +106,14 @@ public class SecurityOrder implements Entity<Integer> {
         ", notes='" + notes + '\'' +
         '}';
   }
-  private enum Status {FILLED("FILLED"), CANCELLED("CANCELLED"), PENDING("PENDING");
+
+  private enum Status {
+    FILLED("FILLED"), CANCELLED("CANCELLED"), PENDING("PENDING");
     String string;
+
     Status(String currentStatus) {
       string = currentStatus;
     }
-  };
+  }
 
 }
