@@ -37,10 +37,14 @@ public class OrderService {
   }
 
   /**
-   * Execute a market order - validate the order (e.g. size and ticker) - create a securityOrder
-   * (for security_order table) - handle buy or sell order - buy order : check account balance
-   * (calls helper method) - sell order: check position for the ticker/symbol (calls helper method)
-   * - update securityOrder.status - save and return securityOrder
+   * Execute a market order
+   * - validate the order (e.g. size and ticker)
+   * - create a securityOrder (for security_order table)
+   * - handle buy or sell order
+   * - buy order : check account balance (calls helper method)
+   * - sell order: check position for the ticker/symbol (calls helper method)
+   * - update securityOrder.status
+   * - save and return securityOrder
    *
    * @param orderDto market order
    * @return SecurityOrder from security_order table

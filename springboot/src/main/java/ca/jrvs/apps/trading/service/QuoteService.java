@@ -28,8 +28,8 @@ public class QuoteService {
   }
 
   /**
-   * Helper method to map an iexQuote to a quote entity Note: 'iexQuote.getLatestPrice()==null' if
-   * the stock market is closed
+   * Helper method to map an iexQuote to a quote entity
+   * Note: 'iexQuote.getLatestPrice()==null' if the stock market is closed
    *
    * @param iexQuote to be mapped
    * @return mapped Quote
@@ -46,8 +46,11 @@ public class QuoteService {
   }
 
   /**
-   * Update quote table against IEX source - get all quotes from the db - foreach ticker get
-   * iexQuote - convert iexQuote to quote entity - persist quote to db
+   * Update quote table against IEX source
+   * - get all quotes from the db
+   * - foreach ticker get iexQuote
+   * - convert iexQuote to quote entity
+   * - persist quote to db
    *
    * @return updated quotes
    * @throws ca.jrvs.apps.trading.dao.ResourceNotFoundException if ticker is not found from IEX
@@ -74,7 +77,7 @@ public class QuoteService {
   }
 
   /**
-   * persists quotes to database
+   * Persists quotes to database
    *
    * @param quotes a list of quotes
    * @return updated quotes
@@ -116,7 +119,7 @@ public class QuoteService {
   }
 
   /**
-   * Add a quote of new ticker to the quote table
+   * Adds a quote of new ticker to the quote table
    *
    * @param tickerId new ticker
    * @return added quote

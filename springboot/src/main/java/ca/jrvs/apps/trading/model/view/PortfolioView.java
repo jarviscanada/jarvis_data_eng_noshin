@@ -13,4 +13,11 @@ public class PortfolioView {
   public void setSecurityRows(List<SecurityRow> securityRows) {
     this.securityRows = securityRows;
   }
+
+  @Override
+  public String toString() {
+    return "PortfolioView{" +
+        "securityRows=" + securityRows +
+        '}';
+  }
 }

@@ -37,8 +37,10 @@ public class DashboardService {
   }
 
   /**
-   * Create and return a traderAccountView by traderId - get trader account by id - get trader info
-   * by id - create and return a traderAccountView
+   * Create and return a traderAccountView by traderId
+   * - get trader account by id
+   * - get trader info by id
+   * - create and return a traderAccountView
    *
    * @param traderId must not be null
    * @return traderAccountView
@@ -51,8 +53,10 @@ public class DashboardService {
   }
 
   /**
-   * Create and return a portfolioView by traderId - get account by trader id - get positions by
-   * account id - create and return a portfolioView
+   * Create and return a portfolioView by traderId
+   * - get account by trader id
+   * - get positions by account id
+   * - create and return a portfolioView
    *
    * @param traderId must not be null
    * @return portfolioView

@@ -30,7 +30,7 @@ public abstract class JdbcCrudDao<T extends Entity<E>, E> implements CrudReposit
   abstract Class<T> getEntityClass();
 
   /**
-   * Save an entity and update auto-generated integer ID
+   * Saves an entity and update auto-generated integer ID
    *
    * @param entity to be saved
    * @param <S>    type of entity
@@ -72,7 +72,7 @@ public abstract class JdbcCrudDao<T extends Entity<E>, E> implements CrudReposit
   }
 
   /**
-   * Update all the provided entities in the entity table
+   * Updates all the provided entities in the entity table
    *
    * @param iterable list of entities
    * @param <S>      type of entity

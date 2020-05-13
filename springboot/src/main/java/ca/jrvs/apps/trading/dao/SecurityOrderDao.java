@@ -56,7 +56,7 @@ public class SecurityOrderDao extends JdbcCrudDao<SecurityOrder, Integer> {
   }
 
   /**
-   * helper method that updates existing security order
+   * Helper method that updates existing security order
    *
    * @param securityOrder new security order
    * @return row number of updated security order
@@ -68,7 +68,7 @@ public class SecurityOrderDao extends JdbcCrudDao<SecurityOrder, Integer> {
   }
 
   /**
-   * helper method to generate update values (Object[]) from SecurityOrder object for update SQL
+   * Helper method to generate update values (Object[]) from SecurityOrder object for update SQL
    * statement
    *
    * @param securityOrder to generate values from
@@ -82,7 +82,7 @@ public class SecurityOrderDao extends JdbcCrudDao<SecurityOrder, Integer> {
   }
 
   /**
-   * Update all the provided securityOrders in the security_order table
+   * Updates all the provided securityOrders in the security_order table
    *
    * @param securityOrders list of securityOrders
    * @return updated list of security orders

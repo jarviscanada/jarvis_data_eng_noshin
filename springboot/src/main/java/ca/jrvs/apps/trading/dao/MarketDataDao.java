@@ -45,7 +45,7 @@ public class MarketDataDao implements CrudRepository<IexQuote, String> {
   }
 
   /**
-   * Execute a get and return http entity/body as a string using EntityUtils.toString
+   * Executes a get request and returns http entity/body as a string using EntityUtils.toString
    *
    * @param url resource URL
    * @return http response or Optional.empty for 404 response
@@ -105,7 +105,7 @@ public class MarketDataDao implements CrudRepository<IexQuote, String> {
   }
 
   /**
-   * Get an IexQuote (helper method for findAllById)
+   * Gets an IexQuote (helper method for findAllById)
    *
    * @param ticker
    * @return an IexQuote if found, else return Optional.empty
@@ -136,7 +136,7 @@ public class MarketDataDao implements CrudRepository<IexQuote, String> {
   }
 
   /**
-   * Get quotes from IEX
+   * Gets quotes from IEX
    *
    * @param tickers list of tickers
    * @return a list of IexQuote objects
@@ -188,7 +188,7 @@ public class MarketDataDao implements CrudRepository<IexQuote, String> {
   }
 
   /**
-   * Parse JSON string to an object
+   * Parses JSON string to an object
    *
    * @param <T>   Type
    * @param json  JSON string

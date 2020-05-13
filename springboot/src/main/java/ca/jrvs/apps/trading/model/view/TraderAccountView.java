@@ -47,4 +47,12 @@ public class TraderAccountView {
   public int hashCode() {
     return Objects.hash(account, trader);
   }
+
+  @Override
+  public String toString() {
+    return "TraderAccountView{" +
+        "account=" + account +
+        ", trader=" + trader +
+        '}';
+  }
 }
