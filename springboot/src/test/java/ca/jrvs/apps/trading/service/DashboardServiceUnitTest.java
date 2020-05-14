@@ -76,15 +76,6 @@ public class DashboardServiceUnitTest {
     quote.setBidPrice(53.0);
   }
 
-  @After
-  public void nullify() {
-    account = null;
-    trader = null;
-    position = null;
-    quote = null;
-  }
-
-
   @Test
   public void getTraderAccount() {
     TraderAccountView expectedTraderAccountView = new TraderAccountView(account, trader);

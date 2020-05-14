@@ -32,7 +32,6 @@ public class OrderServiceUnitTest {
 
   @Rule
   public ExpectedException expectedException = ExpectedException.none();
-  //mock all dependencies
   @Mock
   private AccountDao accountDao;
   @Mock
@@ -41,7 +40,6 @@ public class OrderServiceUnitTest {
   private QuoteDao quoteDao;
   @Mock
   private PositionDao positionDao;
-  //Injecting mocked dependencies to the testing class via constructor
   @InjectMocks
   private OrderService orderService;
 
