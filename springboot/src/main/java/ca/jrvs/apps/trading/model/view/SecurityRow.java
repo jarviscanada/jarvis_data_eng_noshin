@@ -2,6 +2,7 @@ package ca.jrvs.apps.trading.model.view;
 
 import ca.jrvs.apps.trading.model.domain.Position;
 import ca.jrvs.apps.trading.model.domain.Quote;
+import java.util.Objects;
 
 public class SecurityRow {
 
@@ -37,6 +38,25 @@ public class SecurityRow {
 
   public void setTicker(String ticker) {
     this.ticker = ticker;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    SecurityRow that = (SecurityRow) o;
+    return Objects.equals(position, that.position) &&
+        Objects.equals(quote, that.quote) &&
+        Objects.equals(ticker, that.ticker);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(position, quote, ticker);
   }
 
   @Override

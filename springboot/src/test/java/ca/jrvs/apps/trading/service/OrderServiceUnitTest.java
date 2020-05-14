@@ -2,6 +2,8 @@ package ca.jrvs.apps.trading.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import ca.jrvs.apps.trading.dao.AccountDao;
@@ -30,9 +32,6 @@ public class OrderServiceUnitTest {
 
   @Rule
   public ExpectedException expectedException = ExpectedException.none();
-  //Capture parameter when calling securityOrderDao.save
-  @Captor
-  ArgumentCaptor<SecurityOrder> captorSecurityOrder;
   //mock all dependencies
   @Mock
   private AccountDao accountDao;
