@@ -1,14 +1,17 @@
 package ca.jrvs.apps.trading.service;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 import ca.jrvs.apps.trading.TestConfig;
 import ca.jrvs.apps.trading.dao.AccountDao;
+import ca.jrvs.apps.trading.dao.QuoteDao;
+import ca.jrvs.apps.trading.dao.SecurityOrderDao;
 import ca.jrvs.apps.trading.dao.TraderDao;
 import ca.jrvs.apps.trading.model.domain.Account;
+import ca.jrvs.apps.trading.model.domain.Quote;
+import ca.jrvs.apps.trading.model.domain.SecurityOrder;
 import ca.jrvs.apps.trading.model.domain.Trader;
-import ca.jrvs.apps.trading.model.domain.TraderAccountView;
+import ca.jrvs.apps.trading.model.view.TraderAccountView;
 import java.time.LocalDate;
 import org.junit.Rule;
 import org.junit.Test;
@@ -32,10 +35,15 @@ public class TraderAccountServiceIntTest {
   private TraderDao traderDao;
   @Autowired
   private AccountDao accountDao;
+  @Autowired
+  private QuoteDao quoteDao;
+  @Autowired
+  private SecurityOrderDao securityOrderDao;
 
   private Trader firstTrader = new Trader();
   private Trader secondTrader = new Trader();
   private Account firstAccount = new Account();
+  private Quote firstQuote = new Quote();
   private TraderAccountView savedView;
 
   @Test
@@ -61,32 +69,33 @@ public class TraderAccountServiceIntTest {
 
   @Test
   public void testDeleteTraderById() {
-    //when amount and open positions are 0
+    //when amount is 0 but position is not
     firstTrader.setFirstName("John");
     firstTrader.setLastName("Doe");
     firstTrader.setCountry("Canada");
     firstTrader.setDob(LocalDate.of(2000, 12, 12));
     firstTrader.setEmail("john.doe@gmail.com");
     savedView = traderAccountService.createTraderAndAccount(firstTrader);
-    traderAccountService.deleteTraderById(savedView.getTrader().getId());
+    firstQuote.setAskPrice(10d);
+    firstQuote.setAskSize(10L);
+    firstQuote.setBidPrice(10.2d);
+    firstQuote.setBidSize(10L);
+    firstQuote.setId("AAPL");
+    firstQuote.setLastPrice(10.1d);
+    quoteDao.save(firstQuote);
+    SecurityOrder securityOrder = new SecurityOrder();
+    securityOrder.setTicker("AAPL");
+    securityOrder.setPrice(32.6);
+    securityOrder.setStatus("FILLED");
+    securityOrder.setAccountId(savedView.getTrader().getId());
+    securityOrder.setNotes("Some notes");
+    securityOrder.setSize(0);
+    securityOrderDao.save(securityOrder);
 
+    //when amount and open positions are 0
+    traderAccountService.deleteTraderById(savedView.getTrader().getId());
     assertEquals(0, traderDao.count());
     assertEquals(0, accountDao.count());
-
-    //when amount is 100.0
-    secondTrader.setFirstName("Jane");
-    secondTrader.setLastName("Smith");
-    secondTrader.setCountry("Canada");
-    secondTrader.setEmail("jane.smith@gmail.com");
-    secondTrader.setDob(LocalDate.of(2000, 1, 1));
-    savedView = traderAccountService.createTraderAndAccount(secondTrader);
-    savedView.getAccount().setAmount(100.0);
-    accountDao.updateOne(savedView.getAccount());
-
-    expectedException.expect(IllegalArgumentException.class);
-    traderAccountService.deleteTraderById(savedView.getTrader().getId());
-    assertNotEquals(0, traderDao.count());
-    assertNotEquals(0, accountDao.count());
   }
 
   @Test
@@ -98,14 +107,11 @@ public class TraderAccountServiceIntTest {
     secondTrader.setDob(LocalDate.of(2000, 1, 1));
     savedView = traderAccountService.createTraderAndAccount(secondTrader);
     savedView.getAccount().setAmount(100.0);
-
-    //when fund is 0.0
-    expectedException.expect(IllegalArgumentException.class);
-    traderAccountService.deposit(savedView.getTrader().getId(), 0.0);
+    accountDao.save(savedView.getAccount());
 
     //when fund is greater than 0.0
     Account secondAccount = traderAccountService.deposit(savedView.getTrader().getId(), 23.0);
-    assertEquals(java.util.Optional.of(123.0), secondAccount.getAmount());
+    assertEquals(new Double(123.0), secondAccount.getAmount());
   }
 
   @Test
@@ -117,13 +123,10 @@ public class TraderAccountServiceIntTest {
     secondTrader.setDob(LocalDate.of(2000, 1, 1));
     savedView = traderAccountService.createTraderAndAccount(secondTrader);
     savedView.getAccount().setAmount(100.0);
-
-    //when fund is greater than balance
-    expectedException.expect(IllegalArgumentException.class);
-    traderAccountService.withdraw(savedView.getTrader().getId(), 300.0);
+    accountDao.save(savedView.getAccount());
 
     //when fund is greater than 0.0 and less than balance
-    Account secondAccount = traderAccountService.deposit(savedView.getTrader().getId(), 20.0);
-    assertEquals(java.util.Optional.of(80.0), secondAccount.getAmount());
+    Account secondAccount = traderAccountService.withdraw(savedView.getTrader().getId(), 20.0);
+    assertEquals(new Double(80.0), secondAccount.getAmount());
   }
 }

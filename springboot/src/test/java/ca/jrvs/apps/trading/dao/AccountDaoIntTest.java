@@ -71,8 +71,8 @@ public class AccountDaoIntTest {
 
   @After
   public void remove() {
-    accountDao.deleteById(firstAccount.getId());
-    accountDao.deleteById(secondAccount.getId());
+    accountDao.deleteAll();
+    traderDao.deleteAll();
   }
 
   @Test
@@ -148,27 +148,31 @@ public class AccountDaoIntTest {
     assertEquals(0, accountDao.count());
   }
 
+  @Test(expected = UnsupportedOperationException.class)
+  public void shouldThrowUnsupportedOperationsForDeleteAllInIterableMethod() {
+    accountDao.deleteAll(null);
+  }
+
+  @Test(expected = UnsupportedOperationException.class)
+  public void shouldThrowUnsupportedOperationsForDeleteIexQuoteMethod() {
+    accountDao.delete(new Account());
+  }
+
   @Test
   public void saveAll() {
     List<Account> accounts = new ArrayList<>();
 
     Account newAccount = new Account();
-    newAccount.setTraderId(5);
+    newAccount.setId(2);
+    newAccount.setTraderId(2);
     newAccount.setAmount(1200.5);
     Account anotherNewAccount = new Account();
-    anotherNewAccount.setTraderId(8);
+    anotherNewAccount.setId(1);
+    anotherNewAccount.setTraderId(1);
     anotherNewAccount.setAmount(1200.5);
 
-    //all new accounts
     accounts.add(newAccount);
     accounts.add(anotherNewAccount);
-
-    expectedException.expect(ResourceNotFoundException.class);
-    expectedException.expectMessage("Account not found");
-    accountDao.saveAll(accounts);
-
-    newAccount.setId(1);
-    anotherNewAccount.setId(2);
 
     //all old accounts
     assertEquals(accounts, accountDao.saveAll(accounts));

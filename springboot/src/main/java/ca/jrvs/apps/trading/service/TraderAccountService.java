@@ -7,7 +7,7 @@ import ca.jrvs.apps.trading.dao.TraderDao;
 import ca.jrvs.apps.trading.model.domain.Account;
 import ca.jrvs.apps.trading.model.domain.Position;
 import ca.jrvs.apps.trading.model.domain.Trader;
-import ca.jrvs.apps.trading.model.domain.TraderAccountView;
+import ca.jrvs.apps.trading.model.view.TraderAccountView;
 import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +31,12 @@ public class TraderAccountService {
   }
 
   /**
-   * Create a new trader and initialize a new account with 0 amount - validate user input (all
-   * fields must be non-empty) - create a trader - create an account - create, setup, and return a
-   * new traderAccountView
-   * <p>
+   * Create a new trader and initialize a new account with 0 amount
+   * - validate user input (all fields must be non-empty)
+   * - create a trader
+   * - create an account
+   * - create, setup, and return a new traderAccountView
+   *
    * Assumption: to simplify the logic, each trader has only one account where traderId=accountId
    *
    * @param trader cannot be null. All fields except for ID(auto-generated) should be non-null
@@ -52,9 +54,11 @@ public class TraderAccountService {
   }
 
   /**
-   * A trader can be deleted iff it has no open position and 0 cash balance - validate traderID -
-   * get trader account by traderId and check account balance - get position by accountId and check
-   * positions - delete all securityOrders, account, trader (in this order)
+   * A trader can be deleted iff it has no open position and 0 cash balance
+   * - validate traderID
+   * - get trader account by traderId and check account balance
+   * - get position by accountId and check positions
+   * - delete all securityOrders, account, trader (in this order)
    *
    * @param traderId must not be null
    * @throws IllegalArgumentException if traderId is null or not found or unable to delete
@@ -65,7 +69,7 @@ public class TraderAccountService {
     }
     Account traderAccount = accountDao.findById(traderId).get();
     List<Position> traderPositions = positionDao.findAllById(Arrays.asList(traderId));
-    if (traderAccount.getAmount() == 0.0 && traderPositions.size() == 0) {
+    if (traderAccount.getAmount() == 0.0 && isPositionClosed(traderPositions)) {
       securityOrderDao.deleteAllByAccountId(traderAccount.getId());
       accountDao.deleteById(traderAccount.getId());
       traderDao.deleteById(traderId);
@@ -75,8 +79,25 @@ public class TraderAccountService {
   }
 
   /**
-   * Deposit a fund to an account by traderId - validate user input - account =
-   * accountDao.findByTraderId - accountDao.updateAmountId
+   * Helper method to check if all positions are closed
+   *
+   * @param positions list of positions to be checked
+   * @return true if all positions are 0, else false
+   */
+  private boolean isPositionClosed(List<Position> positions) {
+    for (Position position : positions) {
+      if (position.getPosition() != 0) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * Deposit a fund to an account by traderId
+   * - validate user input
+   * - account = accountDao.findByTraderId
+   * - accountDao.updateAmountId
    *
    * @param traderId must not be null
    * @param fund     must be greater than 0.0
@@ -98,8 +119,10 @@ public class TraderAccountService {
   }
 
   /**
-   * Withdraw a fund to an account by traderId - validate user input - account =
-   * accountDao.findByTraderId - accountDao.updateAmountById
+   * Withdraw a fund to an account by traderId
+   * - validate user input
+   * - account = accountDao.findByTraderId
+   * - accountDao.updateAmountById
    *
    * @param traderId trader ID
    * @param fund     amount can't be 0.0

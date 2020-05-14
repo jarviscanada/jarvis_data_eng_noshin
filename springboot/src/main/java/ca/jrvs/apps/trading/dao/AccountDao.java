@@ -56,7 +56,7 @@ public class AccountDao extends JdbcCrudDao<Account, Integer> {
   }
 
   /**
-   * helper method that updates existing account
+   * Helper method that updates existing account
    *
    * @param account new account
    * @return row number of updated account
@@ -67,7 +67,7 @@ public class AccountDao extends JdbcCrudDao<Account, Integer> {
   }
 
   /**
-   * helper method to generate update values (Object[]) from Account object for update SQL
+   * Helper method to generate update values (Object[]) from Account object for update SQL
    * statement
    *
    * @param account account to generate values from
@@ -79,7 +79,7 @@ public class AccountDao extends JdbcCrudDao<Account, Integer> {
   }
 
   /**
-   * Update all the provided accounts in the account table
+   * Updates all the provided accounts in the account table
    *
    * @param accounts list of accounts
    * @return updated list of accounts

@@ -58,7 +58,7 @@ public class QuoteDao extends JdbcCrudDao<Quote, String> {//CrudRepository<Quote
   }
 
   /**
-   * if quote exists in database, update its values, else add new quote
+   * If quote exists in database, update its values, else add new quote
    *
    * @param quote new quote
    * @return saved quote
@@ -92,7 +92,7 @@ public class QuoteDao extends JdbcCrudDao<Quote, String> {//CrudRepository<Quote
   }
 
   /**
-   * helper method that updates existing quote
+   * Helper method that updates existing quote
    *
    * @param quote new quote
    * @return row number of updated quote
@@ -121,7 +121,7 @@ public class QuoteDao extends JdbcCrudDao<Quote, String> {//CrudRepository<Quote
   }
 
   /**
-   * Update all the provided quotes in the quote table
+   * Updates all the provided quotes in the quote table
    *
    * @param <S>
    * @param quotes list of quotes
@@ -154,7 +154,7 @@ public class QuoteDao extends JdbcCrudDao<Quote, String> {//CrudRepository<Quote
   }
 
   /**
-   * deletes quote of provided ticker
+   * Deletes quote of provided ticker
    *
    * @param ticker to be deleted
    */

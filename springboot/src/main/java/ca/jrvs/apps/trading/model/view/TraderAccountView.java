@@ -1,5 +1,7 @@
-package ca.jrvs.apps.trading.model.domain;
+package ca.jrvs.apps.trading.model.view;
 
+import ca.jrvs.apps.trading.model.domain.Account;
+import ca.jrvs.apps.trading.model.domain.Trader;
 import java.util.Objects;
 
 public class TraderAccountView {
@@ -44,5 +46,13 @@ public class TraderAccountView {
   @Override
   public int hashCode() {
     return Objects.hash(account, trader);
+  }
+
+  @Override
+  public String toString() {
+    return "TraderAccountView{" +
+        "account=" + account +
+        ", trader=" + trader +
+        '}';
   }
 }
