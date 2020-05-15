@@ -16,7 +16,7 @@ microservice MVC architecture is used to implement it. Spring DAO is used to han
 the PostgreSQL database. Docker images of the database and application are built for easy deployment.
 
 ## Quick Start
-### Prerequisites:
+### Prerequisites
 Docker, CentOS 7
 
 ### Running the application
