@@ -5,7 +5,7 @@ Table of contents
 * [Quick Start](#Quick-Start)
 * [Architecture](#Architecture)
 * [REST API USAGE](#REST-API-Usage)
-* [Docker Deployment](#Docker- Deployment)
+* [Docker Deployment](#Docker-Deployment)
 * [Improvements](#Improvements)
 
 ## Introduction
