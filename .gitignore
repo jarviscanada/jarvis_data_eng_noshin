@@ -10,4 +10,3 @@ target/
 .eclipse
 intellij-java-google-style.xml
 resume/gen_resume.sh
-
