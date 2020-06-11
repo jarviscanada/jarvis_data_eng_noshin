@@ -5,6 +5,7 @@ import javax.sql.DataSource;
 import org.apache.catalina.util.ToStringUtil;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -41,12 +42,14 @@ public class AppConfig {
     String user;
     String password;
     if(!StringUtils.isEmpty(System.getenv("RDS_HOSTNAME"))){
-      url = "jdbc:postgresql://"+System.getenv("RDS_HOSTNAME")+":5432/jrvstrading";
+      url = "jdbc:postgresql://"+System.getenv("RDS_HOSTNAME")+":"+System.getenv("RDS_PORT")+"/"+System.getenv("RDS_DB_NAME");
+      user = System.getenv("RDS_USERNAME");
+      password = System.getenv("RDS_PASSWORD");
     } else {
       url = System.getenv("PSQL_URL");
+      user = System.getenv("PSQL_USER");
+      password = System.getenv("PSQL_PASSWORD");
     }
-    user = System.getenv("PSQL_USER");
-    password = System.getenv("PSQL_PASSWORD");
     BasicDataSource basicDataSource = new BasicDataSource();
     basicDataSource.setUrl(url);
     basicDataSource.setUsername(user);
