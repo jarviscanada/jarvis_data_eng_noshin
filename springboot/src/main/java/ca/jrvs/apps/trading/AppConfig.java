@@ -2,6 +2,7 @@ package ca.jrvs.apps.trading;
 
 import ca.jrvs.apps.trading.model.config.MarketDataConfig;
 import javax.sql.DataSource;
+import org.apache.catalina.util.ToStringUtil;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.slf4j.Logger;
@@ -9,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.util.StringUtils;
 
 @Configuration
 @EnableTransactionManagement
@@ -35,9 +37,16 @@ public class AppConfig {
 
   @Bean
   public DataSource dataSource() {
-    String url = System.getenv("PSQL_URL");
-    String user = System.getenv("PSQL_USER");
-    String password = System.getenv("PSQL_PASSWORD");
+    String url;
+    String user;
+    String password;
+    if(!StringUtils.isEmpty(System.getenv("RDS_HOSTNAME"))){
+      url = "jdbc:postgresql://"+System.getenv("RDS_HOSTNAME")+":5432/jrvstrading";
+    } else {
+      url = System.getenv("PSQL_URL");
+    }
+    user = System.getenv("PSQL_USER");
+    password = System.getenv("PSQL_PASSWORD");
     BasicDataSource basicDataSource = new BasicDataSource();
     basicDataSource.setUrl(url);
     basicDataSource.setUsername(user);
